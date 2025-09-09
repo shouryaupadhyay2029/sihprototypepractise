@@ -345,6 +345,8 @@
 
   <footer>© 2025 CropAI — Demo frontend for SIH submission • Built for fast prototyping</footer>
 
+  
+  <script src="../js1.js"></script>
   <script>
     /* ----------------- Utility & Mock AI Logic ----------------- */
     function scrollToSection(id){document.getElementById(id).scrollIntoView({behavior:'smooth',block:'start'})}
@@ -513,6 +515,50 @@
       // ensure predicted dataset length matches labels
       yieldChart.data.datasets[1].data = [null,null,null,null,null]; yieldChart.update();
     });
-  </script>
+    
+
+const API_KEY = "f960ddb4f6c656be2cc4b75e1a5671c8";  // Replace with your key
+const CITY = "Delhi";  // Try with "London", "New York" to test
+
+async function getWeather() {
+  try {
+    const response = await fetch(
+      `https://api.openweathermap.org/data/2.5/weather?q=${CITY}&appid=${API_KEY}&units=metric`
+    );
+    const data = await response.json();
+
+    console.log(data); // 👈 This will show full API response in browser console
+
+    if (data.cod !== 200) {
+      document.getElementById("location").textContent = `⚠️ Error: ${data.message}`;
+      return;
+    }
+
+    document.getElementById("location").textContent = `📍 Location: ${data.name}`;
+    document.getElementById("temperature").textContent = `🌡️ Temp: ${data.main.temp}°C`;
+    document.getElementById("humidity").textContent = `💧 Humidity: ${data.main.humidity}%`;
+
+    const rain = data.rain ? data.rain["1h"] : "No data";
+    document.getElementById("rain").textContent = `🌧️ Rain (1h): ${rain}`;
+  } catch (error) {
+    console.error("Error fetching weather:", error);
+  }
+}
+
+getWeather();
+
+
+
+</script>
+<div id="weather-section" class="card">
+  <h2>🌦️ Weather Update</h2>
+  <p id="location"></p>
+  <p id="temperature"></p>
+  <p id="humidity"></p>
+  <p id="rain"></p>
+</div>
+
+<script src="script.js"></script>
+
 </body>
 </html>
