@@ -317,7 +317,7 @@
     <header>
       <div class="brand" style="flex:1;display:flex;align-items:center;">
         <div class="logo" style="display:flex;align-items:center;justify-content:center;">
-          <!-- Logo image only, no green box -->
+          
           <img class="logo-animate" src="logo2.png" alt="Logo" style="width:54px;height:54px;border-radius:14px;object-fit:cover;background:transparent;border:none;box-shadow:none;filter:brightness(0) invert(1);" />
         </div>
         <div>
@@ -337,10 +337,10 @@
 
       <div class="controls">
       </div>
-      <!-- Move controls to bottom right of header -->
+      
       <div style="position:fixed;bottom:24px;right:24px;z-index:1000;display:flex;gap:10px;">
   <div style="display:flex;flex-direction:column;align-items:center;gap:18px;width:100%;">
-    <!-- Farmer AI Voice Assistant -->
+    
     <button id="farmerVoiceBtn" class="btn" style="background:#43A047;">
       <span>
         <svg width="28" height="28" viewBox="0 0 24 24" fill="none" style="vertical-align:middle;" xmlns="http://www.w3.org/2000/svg">
@@ -353,7 +353,7 @@
       <span class="btn-text" id="farmerVoiceBtnText">Farmer AI Voice Assistant</span>
     </button>
     <div id="farmerVoiceBox" style="display:none;margin-top:12px;min-width:220px;max-width:320px;padding:18px 16px;border-radius:16px;background:linear-gradient(120deg,#e6f4ea 60%,#fff 100%);box-shadow:0 8px 32px rgba(34,139,34,0.18);color:#228B22;font-size:1.08em;font-weight:500;transition:opacity 0.3s,transform 0.3s;opacity:0;position:relative;"></div>
-    <!-- Existing Save/Export buttons -->
+    
     <button id="saveProfileBtn" class="btn" style="background:#fff;color:#228B22;border:1px solid #228B22;">
       <span style="position:relative;top:-6px;">
         <svg width="22" height="22" viewBox="0 0 24 24" fill="none" style="vertical-align:middle;" xmlns="http://www.w3.org/2000/svg">
@@ -385,7 +385,7 @@
           }
         </style>
       </div>
-      <!-- Fixed language selector at bottom left -->
+      
       <div style="position:fixed;bottom:24px;left:24px;z-index:1000;">
         <select id="langSelect" style="padding:10px 16px;border-radius:8px;border:1px solid #228B22;font-size:16px;box-shadow:0 2px 8px rgba(34,139,34,0.12);">
           <option value="en">English</option>
@@ -398,17 +398,17 @@
 
     <div class="grid">
       <main>
-  <!-- ...existing code... -->
+  
         <!-- Home -->
         <section id="home" class="pages">
-          <!-- Friendly Welcome Banner (only on home page) -->
+          
             <div class="card" style="background:linear-gradient(90deg,#e6f4ea 60%,#fff 100%);display:flex;align-items:center;gap:24px;margin-bottom:18px;box-shadow:0 4px 16px rgba(34,139,34,0.08);">
               <div>
                 <h2 id="welcomeTitle" style="margin:0 0 8px 0;font-size:1.6em;color:#228B22">Welcome, Farmer!</h2>
                 <div id="welcomeDesc" style="font-size:1em;color:#228B22">Empowering you with smart tools for better yield and healthy soil.</div>
               </div>
             <div style="width:120px;height:80px;">
-              <!-- Simple SVG farm illustration -->
+              
               <svg viewBox="0 0 120 80" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <rect x="10" y="50" width="100" height="20" fill="#8BC34A"/>
                 <ellipse cx="60" cy="60" rx="40" ry="15" fill="#43A047"/>
@@ -438,7 +438,7 @@
             </div>
             <div style="width:340px;z-index:1;position:relative;">
               <canvas id="heroChart" width="320" height="160" style="filter:drop-shadow(0 8px 32px #43A04788);border-radius:18px;animation:heroFadeIn 1.2s cubic-bezier(.77,0,.18,1) both;"></canvas>
-              <!-- 3D SVG farm illustration -->
+              
               <svg viewBox="0 0 180 120" style="position:absolute;top:24px;right:-40px;width:180px;height:120px;z-index:0;filter:drop-shadow(0 12px 32px #228B2288);" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <ellipse cx="90" cy="100" rx="70" ry="18" fill="#8BC34A"/>
                 <ellipse cx="90" cy="90" rx="60" ry="14" fill="#43A047"/>
@@ -451,7 +451,7 @@
                 <ellipse cx="120" cy="80" rx="10" ry="6" fill="#43A047"/>
               </svg>
             </div>
-            <!-- Animated floating leaves -->
+            
             <div style="position:absolute;top:-24px;left:-32px;z-index:0;pointer-events:none;">
               <svg width="80" height="80" viewBox="0 0 80 80" style="animation:leafFloat 6s infinite alternate ease-in-out;" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <ellipse cx="40" cy="60" rx="24" ry="8" fill="#8BC34A"/>
@@ -481,7 +481,7 @@
               </ul>
             </div>
           </div>
-          <!-- Daily News Section -->
+          
           <div class="card" style="margin-top:32px;box-shadow:0 8px 32px #228B2288;animation:fadeInUp 2s cubic-bezier(.77,0,.18,1) both;min-height:180px;display:flex;flex-direction:column;justify-content:space-between;width:100%;box-sizing:border-box;">
             <h3 style="margin-top:0;color:#228B22;font-size:1.3em;letter-spacing:1px;">🌱 <span id="newsTitle">Daily News for Farmers</span></h3>
             <ul id="newsList" style="padding-left:18px;margin:0;list-style:none;">
@@ -617,7 +617,7 @@
       </main>
 
       <aside>
-        <!-- Weather Widget -->
+        
         <div class="card" style="margin-bottom:12px;display:flex;align-items:center;gap:12px;">
           <div>
             <h4 style="margin:0;color:#228B22" id="weatherTitle">Weather</h4>
@@ -643,7 +643,7 @@
           <h4 style="margin:0" id="aboutTitle">About <span title="Learn more about this tool" style="cursor:help;color:#228B22">❓</span></h4>
           <div id="aboutText" style="color:var(--muted);margin-top:8px;font-size:13px"><span id="aboutTextContent">Prototype for hackathon. Replace prediction logic with backend ML model, connect weather API and satellite data for production.</span></div>
         </div>
-        <!-- Support Card -->
+        
         <div class="card" style="margin-top:12px;background:#e6f4ea;">
           <h4 style="margin:0;color:#228B22" id="supportTitle">Support <span title="Contact for help" style="cursor:help;color:#228B22">❓</span></h4>
           <div id="supportText" style="color:#228B22;margin-top:8px;font-size:14px"><span id="supportTextContent">Need help? Call <b>1800-123-456</b> or visit your local agriculture office.</span></div>
