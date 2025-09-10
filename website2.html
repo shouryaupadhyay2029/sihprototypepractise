@@ -1,0 +1,459 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>AI Crop Yield — Prototype</title>
+  <meta name="description" content="AI-powered crop yield prediction & optimization prototype (Hackathon)" />
+  <!-- External libs (CDN) -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.3.0/dist/chart.umd.min.js"></script>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg: #0f1724;
+      --card: #0b1220;
+      --muted: #94a3b8;
+      --accent: #16a34a;
+      --glass: rgba(255,255,255,0.04);
+      --glass-2: rgba(255,255,255,0.02);
+      --glass-3: rgba(255,255,255,0.06);
+      --radius: 12px;
+      --mono: 'Inter', system-ui, sans-serif;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%;}
+    body{
+      margin:0;
+      font-family:var(--mono);
+      background:linear-gradient(180deg,#071022 0%, #081018 50%);
+      color:#e6eef8;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      padding:20px;
+    }
+
+    /* Layout */
+    .app{max-width:1200px;margin:0 auto;}
+    header{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px}
+    .brand{display:flex;gap:12px;align-items:center}
+    .logo{width:54px;height:54px;border-radius:12px;background:linear-gradient(135deg,#16a34a,#0891b2);display:flex;align-items:center;justify-content:center;font-weight:800;color:white;font-size:18px;box-shadow:0 6px 18px rgba(6,95,70,0.25)}
+    nav{display:flex;gap:12px}
+    .navlink{padding:10px 14px;border-radius:10px;color:var(--muted);text-decoration:none;font-weight:600}
+    .navlink.active{background:var(--glass-3);color:#e6eef8}
+    .controls{display:flex;gap:8px;align-items:center}
+    .btn{background:var(--accent);color:#042017;padding:8px 12px;border-radius:10px;font-weight:700;border:none;cursor:pointer}
+    .ghost{background:transparent;border:1px solid var(--glass);padding:8px 12px;border-radius:10px;color:var(--muted);cursor:pointer}
+
+    /* main grid */
+    .grid{display:grid;grid-template-columns:1fr 360px;gap:18px}
+    main{min-height:60vh}
+    .card{background:linear-gradient(180deg,var(--card), rgba(8,14,21,0.6));padding:16px;border-radius:var(--radius);box-shadow:0 6px 18px rgba(2,6,23,0.6)}
+
+    /* Hero */
+    .hero{display:flex;gap:18px;align-items:center;padding:22px;border-radius:14px;background:linear-gradient(90deg, rgba(8,20,14,0.55), rgba(3,10,20,0.2));overflow:hidden}
+    .hero h1{margin:0;font-size:22px}
+    .hero p{margin:6px 0 0;color:var(--muted)}
+    .stat-row{display:flex;gap:12px;margin-top:12px}
+    .stat{background:var(--glass);padding:10px;border-radius:10px;text-align:center;min-width:140px}
+    .stat strong{display:block;font-size:18px}
+
+    /* Navigation pages */
+    .pages{margin-top:18px}
+    .hidden{display:none}
+
+    /* Forms, inputs */
+    label{display:block;color:var(--muted);font-weight:600;margin-bottom:6px}
+    input,select,textarea{width:100%;padding:10px;border-radius:10px;border:1px solid var(--glass-2);background:transparent;color:inherit}
+
+    /* Dashboard widgets */
+    .widgets{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+    .small{padding:12px}
+
+    /* Community & posts */
+    .post{padding:10px;border-radius:10px;background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.00));border:1px solid rgba(255,255,255,0.02);}
+    .post+ .post{margin-top:10px}
+
+    /* responsive */
+    @media (max-width:980px){
+      .grid{grid-template-columns:1fr}
+      header{flex-direction:column;align-items:flex-start;gap:12px}
+      .controls{width:100%;justify-content:space-between}
+    }
+
+    /* Micro animations */
+    .pulse{animation:pulse 3s infinite}
+    @keyframes pulse{0%{transform:translateY(0)}50%{transform:translateY(-4px)}100%{transform:translateY(0)}}
+
+    /* Fancy toggles */
+    .chip{display:inline-flex;gap:8px;align-items:center;padding:8px 10px;border-radius:999px;background:var(--glass);cursor:pointer}
+
+    footer{margin-top:18px;color:var(--muted);font-size:13px;text-align:center}
+  </style>
+</head>
+<body>
+  <div class="app">
+    <header>
+      <div class="brand">
+        <div class="logo">AI</div>
+        <div>
+          <div style="font-weight:800">AgriAI — Yield Optimizer</div>
+          <div style="font-size:13px;color:var(--muted)">Hackathon prototype — AI powered crop yield prediction</div>
+        </div>
+      </div>
+
+      <nav id="nav">
+        <a class="navlink active" data-route="home">Home</a>
+        <a class="navlink" data-route="dashboard">Dashboard</a>
+        <a class="navlink" data-route="predict">Predict</a>
+        <a class="navlink" data-route="soil">Soil Analyzer</a>
+        <a class="navlink" data-route="community">Community</a>
+        <a class="navlink" data-route="profile">Profile</a>
+      </nav>
+
+      <div class="controls">
+        <button id="saveProfileBtn" class="ghost">Save Profile</button>
+        <button id="exportBtn" class="btn">Export Report</button>
+      </div>
+    </header>
+
+    <div class="grid">
+      <main>
+        <!-- Home -->
+        <section id="home" class="pages">
+          <div class="card hero">
+            <div style="flex:1">
+              <h1>Smart yield predictions for small farms</h1>
+              <p>Use minimal inputs — soil, weather window & seed variety — and get actionable recommendations to improve yield and profit.</p>
+              <div class="stat-row">
+                <div class="stat">
+                  <small class="muted">Avg increase</small>
+                  <strong>+18%</strong>
+                  <div style="font-size:12px;color:var(--muted)">in predicted yield</div>
+                </div>
+                <div class="stat">
+                  <small class="muted">Quick tip</small>
+                  <strong>Split Fertilizer</strong>
+                  <div style="font-size:12px;color:var(--muted)">Apply in 2 stages for maize</div>
+                </div>
+              </div>
+            </div>
+            <div style="width:320px">
+              <canvas id="heroChart" width="320" height="160"></canvas>
+            </div>
+          </div>
+
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px">
+            <div class="card">
+              <h3 style="margin-top:0">Recent Predictions</h3>
+              <div id="recentPreds"></div>
+            </div>
+            <div class="card">
+              <h3 style="margin-top:0">Tips for farmers</h3>
+              <ul id="tipsList">
+                <li>Use well-decomposed compost with recommended dose.</li>
+                <li>Monitor soil moisture using simple tensiometers.</li>
+                <li>Rotate crops to reduce pests and maintain nutrients.</li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <!-- Dashboard -->
+        <section id="dashboard" class="pages hidden">
+          <div class="card">
+            <h2 style="margin:0 0 12px 0">Farm Dashboard</h2>
+            <div class="widgets">
+              <div class="small card">
+                <h4 style="margin:0">Yield Trend</h4>
+                <canvas id="trendChart" height="140"></canvas>
+              </div>
+              <div class="small card">
+                <h4 style="margin:0">Soil Health Score</h4>
+                <div style="font-size:36px;font-weight:800;margin-top:16px"> <span id="soilScore">78</span>/100</div>
+                <div style="color:var(--muted);margin-top:8px">Improving — apply lime to raise pH</div>
+              </div>
+              <div class="small card">
+                <h4 style="margin:0">Resource Planner</h4>
+                <div style="margin-top:8px">
+                  <label>Available area (ha)</label>
+                  <input id="areaInput" type="number" placeholder="e.g. 2" />
+                  <label style="margin-top:8px">Seed Variety</label>
+                  <select id="varietySelect"><option>Maize Hybrid A</option><option>Rice S-200</option><option>Wheat D-10</option></select>
+                  <button id="planBtn" class="btn" style="margin-top:8px">Plan Resources</button>
+                </div>
+              </div>
+              <div class="small card">
+                <h4 style="margin:0">Alerts</h4>
+                <div style="margin-top:10px;color:var(--muted)" id="alerts">No critical alerts</div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Predict -->
+        <section id="predict" class="pages hidden">
+          <div class="card">
+            <h2>Yield Prediction</h2>
+            <p style="color:var(--muted)">Enter minimal inputs. This prototype simulates an AI model — replace this with your backend / ML endpoint for real predictions.</p>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px">
+              <div>
+                <label>Crop</label>
+                <select id="cropSelect"><option>Maize</option><option>Rice</option><option>Wheat</option></select>
+                <label style="margin-top:8px">Area (hectares)</label>
+                <input id="area" type="number" placeholder="e.g. 1.5" />
+                <label style="margin-top:8px">Soil pH</label>
+                <input id="ph" type="number" step="0.1" placeholder="6.5" />
+                <label style="margin-top:8px">Organic Carbon (%)</label>
+                <input id="oc" type="number" step="0.1" placeholder="1.2" />
+                <label style="margin-top:8px">Last Season Yield (t/ha)</label>
+                <input id="lastYield" type="number" step="0.1" placeholder="2.5" />
+                <button id="predictBtn" class="btn" style="margin-top:10px">Run Prediction</button>
+              </div>
+              <div>
+                <div class="card" style="height:100%">
+                  <h4 style="margin:0">Prediction Result</h4>
+                  <div id="predictionResult" style="margin-top:12px">
+                    <div style="font-size:28px;font-weight:800">— t/ha</div>
+                    <div style="color:var(--muted);margin-top:8px" id="recText">Recommendations will appear here.</div>
+                    <div style="margin-top:12px"><canvas id="predGauge" height="140"></canvas></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Soil Analyzer -->
+        <section id="soil" class="pages hidden">
+          <div class="card">
+            <h2>Soil Health Analyzer</h2>
+            <p style="color:var(--muted)">Use simple sensor inputs or manual values to get a soil health score and suggestions.</p>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px">
+              <div>
+                <label>Nitrogen (kg/ha)</label>
+                <input id="nVal" type="number" placeholder="40" />
+                <label style="margin-top:8px">Phosphorus (kg/ha)</label>
+                <input id="pVal" type="number" placeholder="18" />
+                <label style="margin-top:8px">Potassium (kg/ha)</label>
+                <input id="kVal" type="number" placeholder="120" />
+                <label style="margin-top:8px">pH</label>
+                <input id="soilPH" type="number" step="0.1" placeholder="6.3" />
+                <button id="analyzeSoil" class="btn" style="margin-top:8px">Analyze</button>
+              </div>
+              <div>
+                <div class="card">
+                  <h4 style="margin:0">Analysis</h4>
+                  <div id="soilAnalysis" style="margin-top:12px;color:var(--muted)">No data</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Community -->
+        <section id="community" class="pages hidden">
+          <div class="card">
+            <h2>Community Forum</h2>
+            <p style="color:var(--muted)">Share tips, ask questions, and show results. Posts are stored locally in this prototype for demo.</p>
+            <div style="display:flex;gap:8px;margin-top:12px">
+              <input id="postInput" placeholder="Share a tip or ask a question" />
+              <button id="postBtn" class="btn">Post</button>
+            </div>
+            <div id="posts" style="margin-top:12px"></div>
+          </div>
+        </section>
+
+        <!-- Profile -->
+        <section id="profile" class="pages hidden">
+          <div class="card">
+            <h2>Profile</h2>
+            <p style="color:var(--muted)">Save your farm profile for quicker predictions.</p>
+            <label>Farmer name</label>
+            <input id="farmerName" placeholder="e.g. Ram" />
+            <label style="margin-top:8px">Location (village / district)</label>
+            <input id="location" placeholder="" />
+            <label style="margin-top:8px">Farm Size (ha)</label>
+            <input id="farmSize" type="number" placeholder="1.2" />
+            <button id="saveBtn" class="btn" style="margin-top:10px">Save</button>
+          </div>
+        </section>
+
+      </main>
+
+      <aside>
+        <div class="card">
+          <h4 style="margin:0">Quick Actions</h4>
+          <div style="display:flex;flex-direction:column;gap:8px;margin-top:10px">
+            <div class="chip" id="quickPredict">⚡ Quick Predict</div>
+            <div class="chip" id="soilQuick">🧪 Soil Quick Check</div>
+            <div class="chip pulse" id="smartTip">💡 Smart Tip</div>
+          </div>
+        </div>
+
+        <div class="card" style="margin-top:12px">
+          <h4 style="margin:0">Notifications</h4>
+          <div id="sideNotifs" style="margin-top:8px;color:var(--muted)">No notifications</div>
+        </div>
+
+        <div class="card" style="margin-top:12px">
+          <h4 style="margin:0">About</h4>
+          <div style="color:var(--muted);margin-top:8px;font-size:13px">Prototype for hackathon. Replace prediction logic with backend ML model, connect weather API and satellite data for production.</div>
+        </div>
+      </aside>
+    </div>
+
+    <footer>Made with ♥ for farmers — Prototype (client-side)</footer>
+  </div>
+
+  <script>
+    // --- Simple SPA routing ---
+    const links = document.querySelectorAll('.navlink');
+    const pages = document.querySelectorAll('.pages');
+    function setRoute(route){
+      pages.forEach(p => p.classList.add('hidden'));
+      document.getElementById(route).classList.remove('hidden');
+      links.forEach(l=>l.classList.toggle('active', l.dataset.route===route));
+    }
+    links.forEach(l=>l.addEventListener('click',()=>setRoute(l.dataset.route)));
+
+    // --- demo charts ---
+    const heroCtx = document.getElementById('heroChart');
+    new Chart(heroCtx,{
+      type:'line',data:{labels:['2019','2020','2021','2022','2023'],datasets:[{label:'Yield (t/ha)',data:[2.1,2.3,2.7,3.0,3.4],fill:true,tension:0.4}]},options:{plugins:{legend:{display:false}},scales:{y:{beginAtZero:true}}}
+    });
+
+    const trendCtx = document.getElementById('trendChart');
+    new Chart(trendCtx,{type:'bar',data:{labels:['Jan','Mar','May','Jul','Sep','Nov'],datasets:[{label:'Yield',data:[2.4,2.6,2.8,3.0,3.2,3.4]}]},options:{plugins:{legend:{display:false}}}});
+
+    const gaugeCtx = document.getElementById('predGauge');
+    const gaugeChart = new Chart(gaugeCtx,{type:'doughnut',data:{labels:['Predicted','Remaining'],datasets:[{data:[60,40],cutout:'75%'}]},options:{plugins:{legend:{display:false}},rotation:-1.2*Math.PI}});
+
+    // --- recent predictions (local demo) ---
+    const recentPredsE = document.getElementById('recentPreds');
+    const RECENT_KEY = 'agri_recent_preds';
+    function loadRecent(){
+      const arr = JSON.parse(localStorage.getItem(RECENT_KEY)||'[]');
+      recentPredsE.innerHTML = arr.slice().reverse().map(r=>`<div style="padding:8px;border-radius:8px;background:var(--glass);margin-top:6px"><strong>${r.crop}</strong> — <span style="font-weight:700">${r.pred.toFixed(2)} t/ha</span><div style="color:var(--muted);font-size:13px">${r.note||''}</div></div>`).join('')||'<div style="color:var(--muted)">No predictions yet</div>';
+    }
+    loadRecent();
+
+    // --- Prediction simulation logic ---
+    function simulatePrediction({crop,area,ph,oc,lastYield}){
+      // Lightweight heuristic + randomness to simulate ML
+      let base = parseFloat(lastYield) || 2.0;
+      // soil fertility multiplier
+      const fertility = Math.max(0.6, Math.min(1.6, (parseFloat(oc)||1.0) * (1 + (7 - Math.abs((parseFloat(ph)||6.5)-6.5))/10)));
+      let weatherFactor = 1 + (Math.random()-0.4)*0.12; // simulated
+      let varietyFactor = crop.includes('Maize')?1.05: crop.includes('Rice')?0.98:1.0;
+      let predPerHa = base * fertility * weatherFactor * varietyFactor;
+      // small area scaling
+      if(area && area<0.4) predPerHa *= 0.95;
+      // clamp
+      predPerHa = Math.max(0.3, Math.min(10, predPerHa));
+      // recommendation
+      let rec = [];
+      if((parseFloat(ph)||6.5) < 6.0) rec.push('Apply lime to raise pH towards 6.5-7.0');
+      if((parseFloat(oc)||1) < 1.2) rec.push('Add organic matter: compost/manure');
+      if(rec.length===0) rec.push('Maintain current practices; monitor moisture');
+      return {pred:predPerHa, rec:rec.join('. ')};
+    }
+
+    document.getElementById('predictBtn').addEventListener('click',()=>{
+      const crop = document.getElementById('cropSelect').value;
+      const area = parseFloat(document.getElementById('area').value)||1;
+      const ph = parseFloat(document.getElementById('ph').value)||6.5;
+      const oc = parseFloat(document.getElementById('oc').value)||1;
+      const lastYield = parseFloat(document.getElementById('lastYield').value)||2.0;
+      const out = simulatePrediction({crop,area,ph,oc,lastYield});
+      document.querySelector('#predictionResult div').innerHTML = `<div style="font-size:28px;font-weight:800">${out.pred.toFixed(2)} t/ha</div>`;
+      document.getElementById('recText').innerText = out.rec;
+      gaugeChart.data.datasets[0].data[0] = Math.min(100, Math.max(0, (out.pred/8)*100));
+      gaugeChart.data.datasets[0].data[1] = 100 - gaugeChart.data.datasets[0].data[0];
+      gaugeChart.update();
+      // save to recent
+      const arr = JSON.parse(localStorage.getItem(RECENT_KEY)||'[]');
+      arr.push({crop,area,pred:out.pred,note:out.rec,ts:Date.now()});
+      localStorage.setItem(RECENT_KEY, JSON.stringify(arr.slice(-20)));
+      loadRecent();
+    });
+
+    // --- Soil analyzer ---
+    document.getElementById('analyzeSoil').addEventListener('click',()=>{
+      const n = parseFloat(document.getElementById('nVal').value)||40;
+      const p = parseFloat(document.getElementById('pVal').value)||18;
+      const k = parseFloat(document.getElementById('kVal').value)||120;
+      const ph = parseFloat(document.getElementById('soilPH').value)||6.3;
+      // simple scoring
+      let score = 50;
+      score += Math.max(-20, Math.min(20, (n-40)/2));
+      score += Math.max(-15, Math.min(15, (p-15)/1.5));
+      score += Math.max(-15, Math.min(15, (k-100)/5));
+      score += (ph>=6 && ph<=7.5)?10: (ph<6? -8: -5);
+      score = Math.round(Math.max(1,Math.min(100,score)));
+      document.getElementById('soilScore').innerText = score;
+      let advice = [];
+      if(n<30) advice.push('Nitrogen low — consider urea/top-dressing');
+      if(p<12) advice.push('Phosphorus low — apply DAP at recommended dose');
+      if(k<90) advice.push('Potassium low — apply muriate of potash as per soil test');
+      if(ph<6) advice.push('pH low — apply lime');
+      if(advice.length===0) advice.push('Soil nutrients are in good range; continue balanced fertilization');
+      document.getElementById('soilAnalysis').innerHTML = `<strong>Score: ${score}/100</strong><div style="margin-top:8px;color:var(--muted)">${advice.join('. ')}</div>`;
+    });
+
+    // --- Community posts local storage ---
+    const POSTS_KEY = 'agri_posts_v1';
+    function loadPosts(){
+      const posts = JSON.parse(localStorage.getItem(POSTS_KEY)||'[]').slice().reverse();
+      const el = document.getElementById('posts');
+      el.innerHTML = posts.map(p=>`<div class="post"><div style="font-weight:700">${p.user||'Farmer'}</div><div style="color:var(--muted);font-size:14px;margin-top:6px">${p.text}</div></div>`).join('')||'<div style="color:var(--muted)">No posts</div>';
+    }
+    loadPosts();
+    document.getElementById('postBtn').addEventListener('click',()=>{
+      const text = document.getElementById('postInput').value.trim();
+      if(!text) return alert('Write something first');
+      const posts = JSON.parse(localStorage.getItem(POSTS_KEY)||'[]');
+      posts.push({user:localStorage.getItem('agri_user')||'Farmer',text,ts:Date.now()});
+      localStorage.setItem(POSTS_KEY,JSON.stringify(posts.slice(-100)));
+      document.getElementById('postInput').value='';
+      loadPosts();
+    });
+
+    // --- Profile save ---
+    document.getElementById('saveBtn').addEventListener('click',()=>{
+      const user = document.getElementById('farmerName').value || 'Farmer';
+      const loc = document.getElementById('location').value || '';
+      const size = document.getElementById('farmSize').value || '';
+      localStorage.setItem('agri_user', user);
+      localStorage.setItem('agri_profile', JSON.stringify({user: user, loc,size}));
+      alert('Profile saved locally');
+    });
+
+    document.getElementById('saveProfileBtn').addEventListener('click',()=>{document.getElementById('saveBtn').click();});
+
+    // --- Quick actions ---
+    document.getElementById('quickPredict').addEventListener('click',()=>{ setRoute('predict'); document.getElementById('cropSelect').value='Maize'; document.getElementById('area').value='1'; document.getElementById('ph').value='6.4'; document.getElementById('oc').value='1.2'; document.getElementById('lastYield').value='2.6'; });
+    document.getElementById('soilQuick').addEventListener('click',()=>{ setRoute('soil'); document.getElementById('nVal').value=40; document.getElementById('pVal').value=18; document.getElementById('kVal').value=100; document.getElementById('soilPH').value=6.3; });
+
+    // --- Export report (demo) ---
+    document.getElementById('exportBtn').addEventListener('click',()=>{
+      const profile = JSON.parse(localStorage.getItem('agri_profile')||'{}');
+      const preds = JSON.parse(localStorage.getItem(RECENT_KEY)||'[]');
+      const text = `AgriAI - Report\nFarmer: ${profile.user||'Unknown'}\nLocation: ${profile.loc||'N/A'}\nRecent predictions:\n` + preds.map(p=>`- ${p.crop}: ${p.pred.toFixed(2)} t/ha`).join('\n');
+      const blob = new Blob([text],{type:'text/plain'});
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a'); a.href = url; a.download = 'agri_report.txt'; a.click(); URL.revokeObjectURL(url);
+    });
+
+    // --- small UX ---
+    document.getElementById('planBtn').addEventListener('click',()=>{ alert('Resource plan created (demo). In production compute seed/fertilizer quantities from area & variety.'); });
+
+    // load profile to UI if present
+    const prof = JSON.parse(localStorage.getItem('agri_profile')||'null');
+    if(prof){ document.getElementById('farmerName').value = prof.user||''; document.getElementById('location').value = prof.loc||''; document.getElementById('farmSize').value = prof.size||''; }
+
+    // On first load, set home
+    setRoute('home');
+  </script>
+</body>
+</html>
