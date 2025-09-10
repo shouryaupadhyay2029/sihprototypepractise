@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>AI Crop Yield — Prototype</title>
+  <title>AI Crop Yield Prototype</title>
   <meta name="description" content="AI-powered crop yield prediction & optimization prototype (Hackathon)" />
   <!-- External libs (CDN) -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.3.0/dist/chart.umd.min.js"></script>
@@ -11,13 +11,13 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
   <style>
     :root{
-      --bg: #0f1724;
-      --card: #0b1220;
-      --muted: #94a3b8;
-      --accent: #16a34a;
-      --glass: rgba(255,255,255,0.04);
-      --glass-2: rgba(255,255,255,0.02);
-      --glass-3: rgba(255,255,255,0.06);
+      --bg: #fff;
+      --card: #e6f4ea;
+      --muted: #228B22;
+      --accent: #228B22;
+      --glass: rgba(34,139,34,0.04);
+      --glass-2: rgba(34,139,34,0.02);
+      --glass-3: rgba(34,139,34,0.06);
       --radius: 12px;
       --mono: 'Inter', system-ui, sans-serif;
     }
@@ -26,8 +26,8 @@
     body{
       margin:0;
       font-family:var(--mono);
-      background:linear-gradient(180deg,#071022 0%, #081018 50%);
-      color:#e6eef8;
+      background:linear-gradient(180deg,#fff 0%, #e6f4ea 100%);
+      color:#228B22;
       -webkit-font-smoothing:antialiased;
       -moz-osx-font-smoothing:grayscale;
       padding:20px;
@@ -35,23 +35,23 @@
 
     /* Layout */
     .app{max-width:1200px;margin:0 auto;}
-    header{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px}
+    header{display:flex;align-items:center;justify-content:flex-start;margin-bottom:18px;position:relative;}
     .brand{display:flex;gap:12px;align-items:center}
-    .logo{width:54px;height:54px;border-radius:12px;background:linear-gradient(135deg,#16a34a,#0891b2);display:flex;align-items:center;justify-content:center;font-weight:800;color:white;font-size:18px;box-shadow:0 6px 18px rgba(6,95,70,0.25)}
+  .logo{width:54px;height:54px;border-radius:12px;background:linear-gradient(135deg,#228B22,#e6f4ea);display:flex;align-items:center;justify-content:center;font-weight:800;color:white;font-size:18px;box-shadow:0 6px 18px rgba(34,139,34,0.25)}
     nav{display:flex;gap:12px}
-    .navlink{padding:10px 14px;border-radius:10px;color:var(--muted);text-decoration:none;font-weight:600}
-    .navlink.active{background:var(--glass-3);color:#e6eef8}
+  .navlink{padding:10px 14px;border-radius:10px;color:var(--accent);text-decoration:none;font-weight:600}
+  .navlink.active{background:var(--glass-3);color:#fff}
     .controls{display:flex;gap:8px;align-items:center}
-    .btn{background:var(--accent);color:#042017;padding:8px 12px;border-radius:10px;font-weight:700;border:none;cursor:pointer}
+  .btn{background:var(--accent);color:#fff;padding:8px 12px;border-radius:10px;font-weight:700;border:none;cursor:pointer}
     .ghost{background:transparent;border:1px solid var(--glass);padding:8px 12px;border-radius:10px;color:var(--muted);cursor:pointer}
 
     /* main grid */
     .grid{display:grid;grid-template-columns:1fr 360px;gap:18px}
     main{min-height:60vh}
-    .card{background:linear-gradient(180deg,var(--card), rgba(8,14,21,0.6));padding:16px;border-radius:var(--radius);box-shadow:0 6px 18px rgba(2,6,23,0.6)}
+  .card{background:linear-gradient(180deg,var(--card), rgba(34,139,34,0.06));padding:16px;border-radius:var(--radius);box-shadow:0 6px 18px rgba(34,139,34,0.12)}
 
     /* Hero */
-    .hero{display:flex;gap:18px;align-items:center;padding:22px;border-radius:14px;background:linear-gradient(90deg, rgba(8,20,14,0.55), rgba(3,10,20,0.2));overflow:hidden}
+  .hero{display:flex;gap:18px;align-items:center;padding:22px;border-radius:14px;background:linear-gradient(90deg, rgba(34,139,34,0.12), rgba(230,244,234,0.6));overflow:hidden}
     .hero h1{margin:0;font-size:22px}
     .hero p{margin:6px 0 0;color:var(--muted)}
     .stat-row{display:flex;gap:12px;margin-top:12px}
@@ -94,26 +94,47 @@
 <body>
   <div class="app">
     <header>
-      <div class="brand">
-        <div class="logo">AI</div>
+      <div class="brand" style="flex:1;display:flex;align-items:center;">
+        <div class="logo" style="display:flex;align-items:center;justify-content:center;">
+          <!-- Leaf/Crop SVG Icon -->
+          <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <ellipse cx="20" cy="32" rx="14" ry="6" fill="#8BC34A"/>
+            <path d="M20 32C20 20 32 12 32 12C32 12 28 24 20 32Z" fill="#228B22"/>
+            <path d="M20 32C20 20 8 12 8 12C8 12 12 24 20 32Z" fill="#43A047"/>
+            <path d="M20 32C20 24 20 16 20 8" stroke="#FFD700" stroke-width="2" stroke-linecap="round"/>
+            <circle cx="20" cy="8" r="3" fill="#FFD700"/>
+          </svg>
+        </div>
         <div>
-          <div style="font-weight:800">AgriAI — Yield Optimizer</div>
-          <div style="font-size:13px;color:var(--muted)">Hackathon prototype — AI powered crop yield prediction</div>
+          <div id="title" style="font-weight:800">AI Crop Yield Prototype</div>
+          <div id="subtitle" style="font-size:13px;color:var(--muted)">FarmEase</div>
         </div>
       </div>
 
-      <nav id="nav">
-        <a class="navlink active" data-route="home">Home</a>
-        <a class="navlink" data-route="dashboard">Dashboard</a>
-        <a class="navlink" data-route="predict">Predict</a>
-        <a class="navlink" data-route="soil">Soil Analyzer</a>
-        <a class="navlink" data-route="community">Community</a>
-        <a class="navlink" data-route="profile">Profile</a>
+  <nav id="nav" style="position:absolute;top:0;right:0;display:flex;gap:12px;align-items:center;">
+  <a class="navlink active" data-route="home" id="navHome">Home</a>
+  <a class="navlink" data-route="dashboard" id="navDashboard">Dashboard</a>
+  <a class="navlink" data-route="predict" id="navPredict">Predict</a>
+  <a class="navlink" data-route="soil" id="navSoil">Soil Analyzer</a>
+  <a class="navlink" data-route="community" id="navCommunity">Community</a>
+  <a class="navlink" data-route="profile" id="navProfile">Profile</a>
       </nav>
 
       <div class="controls">
+      </div>
+      <!-- Move controls to bottom right of header -->
+      <div style="position:fixed;bottom:24px;right:24px;z-index:1000;display:flex;gap:10px;">
         <button id="saveProfileBtn" class="ghost">Save Profile</button>
         <button id="exportBtn" class="btn">Export Report</button>
+      </div>
+      <!-- Fixed language selector at bottom left -->
+      <div style="position:fixed;bottom:24px;left:24px;z-index:1000;">
+        <select id="langSelect" style="padding:10px 16px;border-radius:8px;border:1px solid #228B22;font-size:16px;box-shadow:0 2px 8px rgba(34,139,34,0.12);">
+          <option value="en">English</option>
+          <option value="hi">हिन्दी</option>
+          <option value="bn">বাংলা</option>
+          <option value="mr">मराठी</option>
+        </select>
       </div>
     </header>
 
@@ -123,18 +144,18 @@
         <section id="home" class="pages">
           <div class="card hero">
             <div style="flex:1">
-              <h1>Smart yield predictions for small farms</h1>
-              <p>Use minimal inputs — soil, weather window & seed variety — and get actionable recommendations to improve yield and profit.</p>
+              <h1 id="homeTitle">Smart yield predictions for small farms</h1>
+              <p id="homeDesc">Use minimal inputs — soil, weather window & seed variety — and get actionable recommendations to improve yield and profit.</p>
               <div class="stat-row">
                 <div class="stat">
-                  <small class="muted">Avg increase</small>
-                  <strong>+18%</strong>
-                  <div style="font-size:12px;color:var(--muted)">in predicted yield</div>
+                  <small class="muted" id="homeStatAvg">Avg increase</small>
+                  <strong id="homeStatValue">+18%</strong>
+                  <div style="font-size:12px;color:var(--muted)" id="homeStatYield">in predicted yield</div>
                 </div>
                 <div class="stat">
-                  <small class="muted">Quick tip</small>
-                  <strong>Split Fertilizer</strong>
-                  <div style="font-size:12px;color:var(--muted)">Apply in 2 stages for maize</div>
+                  <small class="muted" id="homeStatTip">Quick tip</small>
+                  <strong id="homeStatTipValue">Split Fertilizer</strong>
+                  <div style="font-size:12px;color:var(--muted)" id="homeStatTipDesc">Apply in 2 stages for maize</div>
                 </div>
               </div>
             </div>
@@ -145,15 +166,15 @@
 
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px">
             <div class="card">
-              <h3 style="margin-top:0">Recent Predictions</h3>
+              <h3 style="margin-top:0" id="homeRecentPreds">Recent Predictions</h3>
               <div id="recentPreds"></div>
             </div>
             <div class="card">
-              <h3 style="margin-top:0">Tips for farmers</h3>
+              <h3 style="margin-top:0" id="homeTipsTitle">Tips for farmers</h3>
               <ul id="tipsList">
-                <li>Use well-decomposed compost with recommended dose.</li>
-                <li>Monitor soil moisture using simple tensiometers.</li>
-                <li>Rotate crops to reduce pests and maintain nutrients.</li>
+                <li id="tip1">Use well-decomposed compost with recommended dose.</li>
+                <li id="tip2">Monitor soil moisture using simple tensiometers.</li>
+                <li id="tip3">Rotate crops to reduce pests and maintain nutrients.</li>
               </ul>
             </div>
           </div>
@@ -307,6 +328,128 @@
   </div>
 
   <script>
+    // Simple translations for demonstration
+    const translations = {
+      en: {
+        title: "AI Crop Yield Prototype",
+        subtitle: "FarmEase",
+        navHome: "Home",
+        navDashboard: "Dashboard",
+        navPredict: "Predict",
+        navSoil: "Soil Analyzer",
+        navCommunity: "Community",
+        navProfile: "Profile",
+        homeTitle: "Smart yield predictions for small farms",
+        homeDesc: "Use minimal inputs — soil, weather window & seed variety — and get actionable recommendations to improve yield and profit.",
+        homeStatAvg: "Avg increase",
+        homeStatValue: "+18%",
+        homeStatYield: "in predicted yield",
+        homeStatTip: "Quick tip",
+        homeStatTipValue: "Split Fertilizer",
+        homeStatTipDesc: "Apply in 2 stages for maize",
+        homeRecentPreds: "Recent Predictions",
+        homeTipsTitle: "Tips for farmers",
+        tip1: "Use well-decomposed compost with recommended dose.",
+        tip2: "Monitor soil moisture using simple tensiometers.",
+        tip3: "Rotate crops to reduce pests and maintain nutrients."
+      },
+      hi: {
+        title: "एआई फसल उपज प्रोटोटाइप",
+        subtitle: "किसान सहायक",
+        navHome: "मुखपृष्ठ",
+        navDashboard: "डैशबोर्ड",
+        navPredict: "पूर्वानुमान",
+        navSoil: "मृदा विश्लेषक",
+        navCommunity: "समुदाय",
+        navProfile: "प्रोफ़ाइल",
+        homeTitle: "छोटे किसानों के लिए स्मार्ट उपज पूर्वानुमान",
+        homeDesc: "न्यूनतम इनपुट — मिट्टी, मौसम विंडो और बीज किस्म — का उपयोग करें और उपज व लाभ बढ़ाने के लिए सुझाव प्राप्त करें।",
+        homeStatAvg: "औसत वृद्धि",
+        homeStatValue: "+१८%",
+        homeStatYield: "अनुमानित उपज में",
+        homeStatTip: "त्वरित सुझाव",
+        homeStatTipValue: "खाद विभाजित करें",
+        homeStatTipDesc: "मक्का के लिए 2 चरणों में लागू करें",
+        homeRecentPreds: "हाल की भविष्यवाणियाँ",
+        homeTipsTitle: "किसानों के लिए सुझाव",
+        tip1: "सिफारिश की गई मात्रा के साथ अच्छी तरह से सड़ा हुआ कम्पोस्ट उपयोग करें।",
+        tip2: "सरल टेंशियोमीटर से मिट्टी की नमी की निगरानी करें।",
+        tip3: "कीटों को कम करने और पोषक तत्व बनाए रखने के लिए फसल चक्र बदलें।"
+      },
+      bn: {
+        title: "এআই ফসল ফলন প্রোটোটাইপ",
+        subtitle: "কৃষক সহায়ক",
+        navHome: "হোম",
+        navDashboard: "ড্যাশবোর্ড",
+        navPredict: "পূর্বাভাস",
+        navSoil: "মাটি বিশ্লেষক",
+        navCommunity: "কমিউনিটি",
+        navProfile: "প্রোফাইল",
+        homeTitle: "ছোট কৃষকদের জন্য স্মার্ট ফলন পূর্বাভাস",
+        homeDesc: "ন্যূনতম ইনপুট — মাটি, আবহাওয়া উইন্ডো এবং বীজের জাত — ব্যবহার করুন এবং ফলন ও লাভ বাড়াতে কার্যকর সুপারিশ পান।",
+        homeStatAvg: "গড় বৃদ্ধি",
+        homeStatValue: "+১৮%",
+        homeStatYield: "অনুমানিত ফলনে",
+        homeStatTip: "দ্রুত টিপস",
+        homeStatTipValue: "সার ভাগ করুন",
+        homeStatTipDesc: "ভুট্টার জন্য ২ ধাপে প্রয়োগ করুন",
+        homeRecentPreds: "সাম্প্রতিক পূর্বাভাস",
+        homeTipsTitle: "কৃষকদের জন্য টিপস",
+        tip1: "প্রস্তাবিত ডোজে ভালভাবে পচা কম্পোস্ট ব্যবহার করুন।",
+        tip2: "সহজ টেনসিওমিটার দিয়ে মাটির আর্দ্রতা পর্যবেক্ষণ করুন।",
+        tip3: "পোকামাকড় কমাতে এবং পুষ্টি বজায় রাখতে ফসল ঘুরান।"
+      },
+      mr: {
+        title: "एआय पीक उत्पादन प्रोटोटाइप",
+        subtitle: "शेतकरी सहाय्यक",
+        navHome: "मुख्यपृष्ठ",
+        navDashboard: "डॅशबोर्ड",
+        navPredict: "भविष्यवाणी",
+        navSoil: "माती विश्लेषक",
+        navCommunity: "समुदाय",
+        navProfile: "प्रोफाइल",
+        homeTitle: "लहान शेतकऱ्यांसाठी स्मार्ट उत्पादन अंदाज",
+        homeDesc: "किमान इनपुट — माती, हवामान विंडो आणि बियाण्याची जात — वापरा आणि उत्पादन व नफा वाढवण्यासाठी सूचना मिळवा.",
+        homeStatAvg: "सरासरी वाढ",
+        homeStatValue: "+१८%",
+        homeStatYield: "अनुमानित उत्पादनात",
+        homeStatTip: "त्वरित टिप",
+        homeStatTipValue: "खत विभाजित करा",
+        homeStatTipDesc: "मक्यासाठी २ टप्प्यांत लागू करा",
+        homeRecentPreds: "अलीकडील अंदाज",
+        homeTipsTitle: "शेतकऱ्यांसाठी टिप्स",
+        tip1: "शिफारस केलेल्या प्रमाणात चांगले कुजलेले कंपोस्ट वापरा.",
+        tip2: "सोप्या टेन्शियोमीटरने मातीतील आर्द्रता तपासा.",
+        tip3: "कीटक कमी करण्यासाठी आणि पोषक तत्व टिकवण्यासाठी पीक फेरफार करा."
+      }
+    };
+
+    document.getElementById('langSelect').addEventListener('change', function() {
+      const lang = this.value;
+      const t = translations[lang];
+      document.getElementById('title').textContent = t.title;
+      document.getElementById('subtitle').textContent = t.subtitle;
+      document.getElementById('navHome').textContent = t.navHome;
+      document.getElementById('navDashboard').textContent = t.navDashboard;
+      document.getElementById('navPredict').textContent = t.navPredict;
+      document.getElementById('navSoil').textContent = t.navSoil;
+      document.getElementById('navCommunity').textContent = t.navCommunity;
+      document.getElementById('navProfile').textContent = t.navProfile;
+      // Home page translations
+      document.getElementById('homeTitle').textContent = t.homeTitle;
+      document.getElementById('homeDesc').textContent = t.homeDesc;
+      document.getElementById('homeStatAvg').textContent = t.homeStatAvg;
+      document.getElementById('homeStatValue').textContent = t.homeStatValue;
+      document.getElementById('homeStatYield').textContent = t.homeStatYield;
+      document.getElementById('homeStatTip').textContent = t.homeStatTip;
+      document.getElementById('homeStatTipValue').textContent = t.homeStatTipValue;
+      document.getElementById('homeStatTipDesc').textContent = t.homeStatTipDesc;
+      document.getElementById('homeRecentPreds').textContent = t.homeRecentPreds;
+      document.getElementById('homeTipsTitle').textContent = t.homeTipsTitle;
+      document.getElementById('tip1').textContent = t.tip1;
+      document.getElementById('tip2').textContent = t.tip2;
+      document.getElementById('tip3').textContent = t.tip3;
+    });
     // --- Simple SPA routing ---
     const links = document.querySelectorAll('.navlink');
     const pages = document.querySelectorAll('.pages');
