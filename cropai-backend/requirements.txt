@@ -1,0 +1,8 @@
+Django~=3.2.25
+djangorestframework>=3.12,<4.0
+psycopg2-binary>=2.9,<3.0
+django-cors-headers>=3.10,<4.0
+gunicorn>=20.1,<21.0
+#dotenv>=0.19,<1.0
+numpy
+pandas
