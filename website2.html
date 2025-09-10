@@ -26,11 +26,15 @@
     body{
       margin:0;
       font-family:var(--mono);
-      background:linear-gradient(180deg,#fff 0%, #e6f4ea 100%);
+      background:
+        linear-gradient(180deg,#fff 0%, #e6f4ea 60%, #c8e6c9 100%),
+        linear-gradient(0deg,rgba(34,139,34,0.04) 0%,rgba(34,139,34,0.08) 100%);
       color:#228B22;
       -webkit-font-smoothing:antialiased;
       -moz-osx-font-smoothing:grayscale;
       padding:20px;
+      position:relative;
+      min-height:100vh;
     }
 
     /* Layout */
@@ -39,24 +43,96 @@
     .brand{display:flex;gap:12px;align-items:center}
   .logo{width:54px;height:54px;border-radius:12px;background:linear-gradient(135deg,#228B22,#e6f4ea);display:flex;align-items:center;justify-content:center;font-weight:800;color:white;font-size:18px;box-shadow:0 6px 18px rgba(34,139,34,0.25)}
     nav{display:flex;gap:12px}
-  .navlink{padding:10px 14px;border-radius:10px;color:var(--accent);text-decoration:none;font-weight:600}
-  .navlink.active{background:var(--glass-3);color:#fff}
+  .navlink {
+    padding: 10px 14px;
+    border-radius: 10px;
+    color: var(--accent);
+    text-decoration: none;
+    font-weight: 600;
+    background: #fff;
+    transition: background 0.2s, color 0.2s;
+  }
+  .navlink.active {
+    background: #228B22;
+    color: #fff !important;
+    box-shadow: 0 2px 8px rgba(34,139,34,0.12);
+  }
     .controls{display:flex;gap:8px;align-items:center}
   .btn{background:var(--accent);color:#fff;padding:8px 12px;border-radius:10px;font-weight:700;border:none;cursor:pointer}
     .ghost{background:transparent;border:1px solid var(--glass);padding:8px 12px;border-radius:10px;color:var(--muted);cursor:pointer}
 
     /* main grid */
-    .grid{display:grid;grid-template-columns:1fr 360px;gap:18px}
-    main{min-height:60vh}
-  .card{background:linear-gradient(180deg,var(--card), rgba(34,139,34,0.06));padding:16px;border-radius:var(--radius);box-shadow:0 6px 18px rgba(34,139,34,0.12)}
+  .grid{display:grid;grid-template-columns:2fr 1fr;gap:32px;align-items:start;}
+    main{min-height:60vh;display:flex;flex-direction:column;gap:24px;}
+  .card{background:linear-gradient(180deg,var(--card), rgba(34,139,34,0.06));padding:24px 20px;border-radius:var(--radius);box-shadow:0 6px 18px rgba(34,139,34,0.12);width:100%;box-sizing:border-box;}
 
     /* Hero */
-  .hero{display:flex;gap:18px;align-items:center;padding:22px;border-radius:14px;background:linear-gradient(90deg, rgba(34,139,34,0.12), rgba(230,244,234,0.6));overflow:hidden}
-    .hero h1{margin:0;font-size:22px}
-    .hero p{margin:6px 0 0;color:var(--muted)}
-    .stat-row{display:flex;gap:12px;margin-top:12px}
-    .stat{background:var(--glass);padding:10px;border-radius:10px;text-align:center;min-width:140px}
-    .stat strong{display:block;font-size:18px}
+    .hero {
+      display: flex;
+      gap: 32px;
+      align-items: center;
+      padding: 40px 32px;
+      border-radius: 24px;
+      background: linear-gradient(120deg, #e6f4ea 60%, #fff 100%);
+      box-shadow: 0 12px 32px rgba(34,139,34,0.18), 0 2px 8px rgba(34,139,34,0.08);
+      overflow: hidden;
+      position: relative;
+      animation: heroFadeIn 1.2s cubic-bezier(.77,0,.18,1) both;
+    }
+    @keyframes heroFadeIn {
+      0% { opacity: 0; transform: translateY(40px) scale(0.98); }
+      100% { opacity: 1; transform: translateY(0) scale(1); }
+    }
+    .hero h1 {
+      margin: 0;
+      font-size: 2.2em;
+      font-weight: 800;
+      color: #228B22;
+      text-shadow: 0 2px 8px rgba(34,139,34,0.08);
+      letter-spacing: 1px;
+      animation: textPop 1.2s cubic-bezier(.77,0,.18,1) both;
+    }
+    @keyframes textPop {
+      0% { opacity: 0; transform: scale(0.95); }
+      100% { opacity: 1; transform: scale(1); }
+    }
+    .hero p {
+      margin: 12px 0 0;
+      color: #43A047;
+      font-size: 1.15em;
+      font-weight: 500;
+      animation: fadeInUp 1.4s cubic-bezier(.77,0,.18,1) both;
+    }
+    @keyframes fadeInUp {
+      0% { opacity: 0; transform: translateY(20px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+    .stat-row {
+      display: flex;
+      gap: 18px;
+      margin-top: 18px;
+    }
+    .stat {
+      background: linear-gradient(120deg, #fff 60%, #e6f4ea 100%);
+      padding: 18px 14px;
+      border-radius: 18px;
+      text-align: center;
+      min-width: 160px;
+      box-shadow: 0 6px 24px rgba(34,139,34,0.12), 0 1px 4px rgba(34,139,34,0.08);
+      transition: transform 0.3s cubic-bezier(.77,0,.18,1), box-shadow 0.3s;
+      will-change: transform;
+    }
+    .stat:hover {
+      transform: translateY(-6px) scale(1.04) rotate(-2deg);
+      box-shadow: 0 16px 32px rgba(34,139,34,0.18), 0 2px 8px rgba(34,139,34,0.12);
+    }
+    .stat strong {
+      display: block;
+      font-size: 2em;
+      font-weight: 800;
+      color: #228B22;
+      text-shadow: 0 2px 8px rgba(34,139,34,0.08);
+    }
 
     /* Navigation pages */
     .pages{margin-top:18px}
@@ -140,54 +216,81 @@
 
     <div class="grid">
       <main>
-        <!-- Friendly Welcome Banner -->
-        <div class="card" style="background:linear-gradient(90deg,#e6f4ea 60%,#fff 100%);display:flex;align-items:center;gap:24px;margin-bottom:18px;box-shadow:0 4px 16px rgba(34,139,34,0.08);">
-          <div>
-            <h2 style="margin:0 0 8px 0;font-size:1.6em;color:#228B22">Welcome, Farmer!</h2>
-            <div style="font-size:1em;color:#228B22">Empowering you with smart tools for better yield and healthy soil.</div>
-          </div>
-          <div style="width:120px;height:80px;">
-            <!-- Simple SVG farm illustration -->
-            <svg viewBox="0 0 120 80" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <rect x="10" y="50" width="100" height="20" fill="#8BC34A"/>
-              <ellipse cx="60" cy="60" rx="40" ry="15" fill="#43A047"/>
-              <rect x="50" y="35" width="20" height="20" fill="#FFD700" stroke="#228B22" stroke-width="2"/>
-              <polygon points="50,35 60,20 70,35" fill="#FFA726"/>
-              <rect x="80" y="45" width="10" height="15" fill="#795548"/>
-              <ellipse cx="85" cy="45" rx="7" ry="7" fill="#388E3C"/>
-            </svg>
-          </div>
-        </div>
+  <!-- ...existing code... -->
         <!-- Home -->
         <section id="home" class="pages">
-          <div class="card hero">
-            <div style="flex:1">
+          <!-- Friendly Welcome Banner (only on home page) -->
+          <div class="card" style="background:linear-gradient(90deg,#e6f4ea 60%,#fff 100%);display:flex;align-items:center;gap:24px;margin-bottom:18px;box-shadow:0 4px 16px rgba(34,139,34,0.08);">
+            <div>
+              <h2 style="margin:0 0 8px 0;font-size:1.6em;color:#228B22">Welcome, Farmer!</h2>
+              <div style="font-size:1em;color:#228B22">Empowering you with smart tools for better yield and healthy soil.</div>
+            </div>
+            <div style="width:120px;height:80px;">
+              <!-- Simple SVG farm illustration -->
+              <svg viewBox="0 0 120 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect x="10" y="50" width="100" height="20" fill="#8BC34A"/>
+                <ellipse cx="60" cy="60" rx="40" ry="15" fill="#43A047"/>
+                <rect x="50" y="35" width="20" height="20" fill="#FFD700" stroke="#228B22" stroke-width="2"/>
+                <polygon points="50,35 60,20 70,35" fill="#FFA726"/>
+                <rect x="80" y="45" width="10" height="15" fill="#795548"/>
+                <ellipse cx="85" cy="45" rx="7" ry="7" fill="#388E3C"/>
+              </svg>
+            </div>
+          </div>
+          <div class="card hero" style="position:relative;overflow:visible;width:100%;box-sizing:border-box;min-height:320px;">
+            <div style="flex:1;z-index:2;position:relative;">
               <h1 id="homeTitle">Smart yield predictions for small farms</h1>
               <p id="homeDesc">Use minimal inputs — soil, weather window & seed variety — and get actionable recommendations to improve yield and profit.</p>
               <div class="stat-row">
-                <div class="stat">
+                <div class="stat" style="animation:fadeInUp 1.6s cubic-bezier(.77,0,.18,1) both;">
                   <small class="muted" id="homeStatAvg">Avg increase</small>
                   <strong id="homeStatValue">+18%</strong>
                   <div style="font-size:12px;color:var(--muted)" id="homeStatYield">in predicted yield</div>
                 </div>
-                <div class="stat">
+                <div class="stat" style="animation:fadeInUp 1.8s cubic-bezier(.77,0,.18,1) both;">
                   <small class="muted" id="homeStatTip">Quick tip</small>
                   <strong id="homeStatTipValue">Split Fertilizer</strong>
                   <div style="font-size:12px;color:var(--muted)" id="homeStatTipDesc">Apply in 2 stages for maize</div>
                 </div>
               </div>
             </div>
-            <div style="width:320px">
-              <canvas id="heroChart" width="320" height="160"></canvas>
+            <div style="width:340px;z-index:1;position:relative;">
+              <canvas id="heroChart" width="320" height="160" style="filter:drop-shadow(0 8px 32px #43A04788);border-radius:18px;animation:heroFadeIn 1.2s cubic-bezier(.77,0,.18,1) both;"></canvas>
+              <!-- 3D SVG farm illustration -->
+              <svg viewBox="0 0 180 120" style="position:absolute;top:24px;right:-40px;width:180px;height:120px;z-index:0;filter:drop-shadow(0 12px 32px #228B2288);" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <ellipse cx="90" cy="100" rx="70" ry="18" fill="#8BC34A"/>
+                <ellipse cx="90" cy="90" rx="60" ry="14" fill="#43A047"/>
+                <rect x="70" y="60" width="40" height="30" fill="#FFD700" stroke="#228B22" stroke-width="3"/>
+                <polygon points="70,60 90,30 110,60" fill="#FFA726"/>
+                <rect x="130" y="75" width="18" height="25" fill="#795548"/>
+                <ellipse cx="139" cy="75" rx="12" ry="12" fill="#388E3C"/>
+                <circle cx="90" cy="30" r="8" fill="#FFD700"/>
+                <ellipse cx="50" cy="80" rx="10" ry="6" fill="#43A047"/>
+                <ellipse cx="120" cy="80" rx="10" ry="6" fill="#43A047"/>
+              </svg>
             </div>
+            <!-- Animated floating leaves -->
+            <div style="position:absolute;top:-24px;left:-32px;z-index:0;pointer-events:none;">
+              <svg width="80" height="80" viewBox="0 0 80 80" style="animation:leafFloat 6s infinite alternate ease-in-out;" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <ellipse cx="40" cy="60" rx="24" ry="8" fill="#8BC34A"/>
+                <path d="M40 60C40 40 64 24 64 24C64 24 56 48 40 60Z" fill="#228B22"/>
+                <path d="M40 60C40 40 16 24 16 24C16 24 24 48 40 60Z" fill="#43A047"/>
+              </svg>
+            </div>
+            <style>
+              @keyframes leafFloat {
+                0% { transform: translateY(0) rotate(-8deg); opacity: 0.7; }
+                100% { transform: translateY(24px) rotate(8deg); opacity: 1; }
+              }
+            </style>
           </div>
 
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px">
-            <div class="card">
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:24px;width:100%;box-sizing:border-box;">
+            <div class="card" style="min-height:220px;display:flex;flex-direction:column;justify-content:space-between;">
               <h3 style="margin-top:0" id="homeRecentPreds">Recent Predictions</h3>
               <div id="recentPreds"></div>
             </div>
-            <div class="card">
+            <div class="card" style="min-height:220px;display:flex;flex-direction:column;justify-content:space-between;">
               <h3 style="margin-top:0" id="homeTipsTitle">Tips for farmers</h3>
               <ul id="tipsList">
                 <li id="tip1">Use well-decomposed compost with recommended dose.</li>
@@ -195,6 +298,17 @@
                 <li id="tip3">Rotate crops to reduce pests and maintain nutrients.</li>
               </ul>
             </div>
+          </div>
+          <!-- Daily News Section -->
+          <div class="card" style="margin-top:32px;box-shadow:0 8px 32px #228B2288;animation:fadeInUp 2s cubic-bezier(.77,0,.18,1) both;min-height:180px;display:flex;flex-direction:column;justify-content:space-between;width:100%;box-sizing:border-box;">
+            <h3 style="margin-top:0;color:#228B22;font-size:1.3em;letter-spacing:1px;">🌱 <span id="newsTitle">Daily News for Farmers</span></h3>
+            <ul id="newsList" style="padding-left:18px;margin:0;list-style:none;">
+              <li style="margin-bottom:10px;animation:fadeInUp 2.2s cubic-bezier(.77,0,.18,1) both;"><b>Rainfall Alert:</b> IMD forecasts moderate rain in eastern states this week. <span style="color:#43A047">Plan irrigation accordingly.</span></li>
+              <li style="margin-bottom:10px;animation:fadeInUp 2.4s cubic-bezier(.77,0,.18,1) both;"><b>Crop MSP Update:</b> Government announces higher Minimum Support Price for wheat and rice.</li>
+              <li style="margin-bottom:10px;animation:fadeInUp 2.6s cubic-bezier(.77,0,.18,1) both;"><b>Pest Warning:</b> Locust activity reported in some districts. <span style="color:#228B22">Monitor crops and report unusual sightings.</span></li>
+              <li style="margin-bottom:10px;animation:fadeInUp 2.8s cubic-bezier(.77,0,.18,1) both;"><b>Market News:</b> Maize prices rise 8% in local mandis. <span style="color:#43A047">Consider selling surplus produce.</span></li>
+              <li style="margin-bottom:10px;animation:fadeInUp 3s cubic-bezier(.77,0,.18,1) both;"><b>Agri Scheme:</b> New subsidy for drip irrigation available. <span style="color:#228B22">Contact your local agriculture office.</span></li>
+            </ul>
           </div>
         </section>
 
@@ -362,6 +476,12 @@
     // Simple translations for demonstration
   const translations = {
       en: {
+        newsTitle: "Daily News for Farmers",
+        news1: "Rainfall Alert: IMD forecasts moderate rain in eastern states this week. Plan irrigation accordingly.",
+        news2: "Crop MSP Update: Government announces higher Minimum Support Price for wheat and rice.",
+        news3: "Pest Warning: Locust activity reported in some districts. Monitor crops and report unusual sightings.",
+        news4: "Market News: Maize prices rise 8% in local mandis. Consider selling surplus produce.",
+        news5: "Agri Scheme: New subsidy for drip irrigation available. Contact your local agriculture office.",
         title: "AI Crop Yield Prototype",
         subtitle: "FarmEase",
         navHome: "Home",
@@ -385,6 +505,12 @@
         tip3: "Rotate crops to reduce pests and maintain nutrients."
       },
       hi: {
+        newsTitle: "किसानों के लिए दैनिक समाचार",
+        news1: "वर्षा अलर्ट: इस सप्ताह पूर्वी राज्यों में मध्यम वर्षा की संभावना। सिंचाई की योजना बनाएं।",
+        news2: "फसल एमएसपी अपडेट: सरकार ने गेहूं और चावल के लिए न्यूनतम समर्थन मूल्य बढ़ाया।",
+        news3: "कीट चेतावनी: कुछ जिलों में टिड्डी गतिविधि देखी गई। फसलों की निगरानी करें और असामान्य गतिविधि की रिपोर्ट करें।",
+        news4: "बाजार समाचार: स्थानीय मंडियों में मक्का के दाम 8% बढ़े। अतिरिक्त उपज बेचने पर विचार करें।",
+        news5: "कृषि योजना: ड्रिप सिंचाई के लिए नई सब्सिडी उपलब्ध। अपने स्थानीय कृषि कार्यालय से संपर्क करें।",
         title: "एआई फसल उपज प्रोटोटाइप",
         subtitle: "किसान सहायक",
         navHome: "मुखपृष्ठ",
@@ -408,6 +534,12 @@
         tip3: "कीटों को कम करने और पोषक तत्व बनाए रखने के लिए फसल चक्र बदलें।"
       },
       bn: {
+        newsTitle: "কৃষকদের জন্য দৈনিক সংবাদ",
+        news1: "বৃষ্টির সতর্কতা: এই সপ্তাহে পূর্বাঞ্চলীয় রাজ্যগুলিতে মাঝারি বৃষ্টির পূর্বাভাস। সেচের পরিকল্পনা করুন।",
+        news2: "ফসল এমএসপি আপডেট: সরকার গম ও চালের জন্য ন্যূনতম সহায়তা মূল্য বাড়িয়েছে।",
+        news3: "পোকামাকড় সতর্কতা: কিছু জেলায় পঙ্গপাল কার্যকলাপ দেখা গেছে। ফসল পর্যবেক্ষণ করুন এবং অস্বাভাবিক কিছু দেখলে রিপোর্ট করুন।",
+        news4: "বাজার সংবাদ: স্থানীয় বাজারে ভুট্টার দাম ৮% বেড়েছে। অতিরিক্ত উৎপাদন বিক্রির কথা ভাবুন।",
+        news5: "কৃষি স্কিম: ড্রিপ সেচের জন্য নতুন ভর্তুকি উপলব্ধ। স্থানীয় কৃষি অফিসে যোগাযোগ করুন।",
         title: "এআই ফসল ফলন প্রোটোটাইপ",
         subtitle: "কৃষক সহায়ক",
         navHome: "হোম",
@@ -431,6 +563,12 @@
         tip3: "পোকামাকড় কমাতে এবং পুষ্টি বজায় রাখতে ফসল ঘুরান।"
       },
       mr: {
+        newsTitle: "शेतकऱ्यांसाठी दैनिक बातम्या",
+        news1: "पावसाचा इशारा: या आठवड्यात पूर्वेकडील राज्यांमध्ये मध्यम पावसाचा अंदाज. सिंचनाची योजना करा.",
+        news2: "पीक एमएसपी अपडेट: सरकारने गहू आणि तांदळासाठी किमान आधारभूत किंमत वाढवली आहे.",
+        news3: "कीटक इशारा: काही जिल्ह्यांमध्ये टोळांची हालचाल आढळली आहे. पिकांची देखरेख करा आणि काही असामान्य आढळल्यास अहवाल द्या.",
+        news4: "बाजार बातम्या: स्थानिक बाजारात मका दर ८% वाढले आहेत. अतिरिक्त उत्पादन विकण्याचा विचार करा.",
+        news5: "कृषी योजना: ड्रिप सिंचनासाठी नवीन अनुदान उपलब्ध. आपल्या स्थानिक कृषी कार्यालयाशी संपर्क साधा.",
         title: "एआय पीक उत्पादन प्रोटोटाइप",
         subtitle: "शेतकरी सहाय्यक",
         navHome: "मुख्यपृष्ठ",
@@ -484,23 +622,30 @@
       setText('tip1', 'tip1');
       setText('tip2', 'tip2');
       setText('tip3', 'tip3');
-      // Farmer-friendly UI translations
-      setText('quickActionsTitle', 'quickActionsTitle');
-      setText('quickPredictText', 'quickPredict');
-      setText('soilQuickText', 'soilQuick');
-      setText('smartTipText', 'smartTip');
-      setText('notificationsTitle', 'notificationsTitle');
-      setText('sideNotifsText', 'sideNotifs');
-      setText('aboutTitle', 'aboutTitle');
-      setText('aboutTextContent', 'aboutText');
-      setText('weatherTitle', 'weatherTitle');
-      setText('weatherMain', 'weatherMain');
-      setText('weatherHumidity', 'weatherHumidity');
-      setText('supportTitle', 'supportTitle');
-      setText('supportTextContent', 'supportText');
-      // Always show aside (right section)
-      const aside = document.querySelector('aside');
-      if (aside) aside.style.display = '';
+  // Farmer-friendly UI translations
+  setText('quickActionsTitle', 'quickActionsTitle');
+  setText('quickPredictText', 'quickPredict');
+  setText('soilQuickText', 'soilQuick');
+  setText('smartTipText', 'smartTip');
+  setText('notificationsTitle', 'notificationsTitle');
+  setText('sideNotifsText', 'sideNotifs');
+  setText('aboutTitle', 'aboutTitle');
+  setText('aboutTextContent', 'aboutText');
+  setText('weatherTitle', 'weatherTitle');
+  setText('weatherMain', 'weatherMain');
+  setText('weatherHumidity', 'weatherHumidity');
+  setText('supportTitle', 'supportTitle');
+  setText('supportTextContent', 'supportText');
+  // News section translations
+  setText('newsTitle', 'newsTitle');
+  document.getElementById('newsList').children[0].textContent = t.news1;
+  document.getElementById('newsList').children[1].textContent = t.news2;
+  document.getElementById('newsList').children[2].textContent = t.news3;
+  document.getElementById('newsList').children[3].textContent = t.news4;
+  document.getElementById('newsList').children[4].textContent = t.news5;
+  // Always show aside (right section)
+  const aside = document.querySelector('aside');
+  if (aside) aside.style.display = '';
     });
     // --- Simple SPA routing ---
     const links = document.querySelectorAll('.navlink');
