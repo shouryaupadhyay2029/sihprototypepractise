@@ -140,6 +140,24 @@
 
     <div class="grid">
       <main>
+        <!-- Friendly Welcome Banner -->
+        <div class="card" style="background:linear-gradient(90deg,#e6f4ea 60%,#fff 100%);display:flex;align-items:center;gap:24px;margin-bottom:18px;box-shadow:0 4px 16px rgba(34,139,34,0.08);">
+          <div>
+            <h2 style="margin:0 0 8px 0;font-size:1.6em;color:#228B22">Welcome, Farmer!</h2>
+            <div style="font-size:1em;color:#228B22">Empowering you with smart tools for better yield and healthy soil.</div>
+          </div>
+          <div style="width:120px;height:80px;">
+            <!-- Simple SVG farm illustration -->
+            <svg viewBox="0 0 120 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect x="10" y="50" width="100" height="20" fill="#8BC34A"/>
+              <ellipse cx="60" cy="60" rx="40" ry="15" fill="#43A047"/>
+              <rect x="50" y="35" width="20" height="20" fill="#FFD700" stroke="#228B22" stroke-width="2"/>
+              <polygon points="50,35 60,20 70,35" fill="#FFA726"/>
+              <rect x="80" y="45" width="10" height="15" fill="#795548"/>
+              <ellipse cx="85" cy="45" rx="7" ry="7" fill="#388E3C"/>
+            </svg>
+          </div>
+        </div>
         <!-- Home -->
         <section id="home" class="pages">
           <div class="card hero">
@@ -303,23 +321,36 @@
       </main>
 
       <aside>
+        <!-- Weather Widget -->
+        <div class="card" style="margin-bottom:12px;display:flex;align-items:center;gap:12px;">
+          <div>
+            <h4 style="margin:0;color:#228B22" id="weatherTitle">Weather</h4>
+            <div style="font-size:15px;color:#228B22" id="weatherMain">🌤️ 28°C, Clear</div>
+            <div style="font-size:13px;color:#43A047" id="weatherHumidity">Humidity: 60%</div>
+          </div>
+        </div>
         <div class="card">
-          <h4 style="margin:0">Quick Actions</h4>
+          <h4 style="margin:0" id="quickActionsTitle">Quick Actions <span title="Get started quickly with these tools" style="cursor:help;color:#228B22">❓</span></h4>
           <div style="display:flex;flex-direction:column;gap:8px;margin-top:10px">
-            <div class="chip" id="quickPredict">⚡ Quick Predict</div>
-            <div class="chip" id="soilQuick">🧪 Soil Quick Check</div>
-            <div class="chip pulse" id="smartTip">💡 Smart Tip</div>
+            <div class="chip" id="quickPredict">⚡ <span id="quickPredictText">Quick Predict</span> <span title="Run a quick crop yield prediction" style="cursor:help;color:#228B22">ℹ️</span></div>
+            <div class="chip" id="soilQuick">🧪 <span id="soilQuickText">Soil Quick Check</span> <span title="Analyze your soil health instantly" style="cursor:help;color:#228B22">ℹ️</span></div>
+            <div class="chip pulse" id="smartTip">💡 <span id="smartTipText">Smart Tip</span> <span title="Get a smart farming tip" style="cursor:help;color:#228B22">ℹ️</span></div>
           </div>
         </div>
 
         <div class="card" style="margin-top:12px">
-          <h4 style="margin:0">Notifications</h4>
-          <div id="sideNotifs" style="margin-top:8px;color:var(--muted)">No notifications</div>
+          <h4 style="margin:0" id="notificationsTitle">Notifications <span title="Latest updates and alerts" style="cursor:help;color:#228B22">❓</span></h4>
+          <div id="sideNotifs" style="margin-top:8px;color:var(--muted)"><span id="sideNotifsText">No notifications</span></div>
         </div>
 
         <div class="card" style="margin-top:12px">
-          <h4 style="margin:0">About</h4>
-          <div style="color:var(--muted);margin-top:8px;font-size:13px">Prototype for hackathon. Replace prediction logic with backend ML model, connect weather API and satellite data for production.</div>
+          <h4 style="margin:0" id="aboutTitle">About <span title="Learn more about this tool" style="cursor:help;color:#228B22">❓</span></h4>
+          <div id="aboutText" style="color:var(--muted);margin-top:8px;font-size:13px"><span id="aboutTextContent">Prototype for hackathon. Replace prediction logic with backend ML model, connect weather API and satellite data for production.</span></div>
+        </div>
+        <!-- Support Card -->
+        <div class="card" style="margin-top:12px;background:#e6f4ea;">
+          <h4 style="margin:0;color:#228B22" id="supportTitle">Support <span title="Contact for help" style="cursor:help;color:#228B22">❓</span></h4>
+          <div id="supportText" style="color:#228B22;margin-top:8px;font-size:14px"><span id="supportTextContent">Need help? Call <b>1800-123-456</b> or visit your local agriculture office.</span></div>
         </div>
       </aside>
     </div>
@@ -329,7 +360,7 @@
 
   <script>
     // Simple translations for demonstration
-    const translations = {
+  const translations = {
       en: {
         title: "AI Crop Yield Prototype",
         subtitle: "FarmEase",
@@ -427,28 +458,49 @@
     document.getElementById('langSelect').addEventListener('change', function() {
       const lang = this.value;
       const t = translations[lang];
-      document.getElementById('title').textContent = t.title;
-      document.getElementById('subtitle').textContent = t.subtitle;
-      document.getElementById('navHome').textContent = t.navHome;
-      document.getElementById('navDashboard').textContent = t.navDashboard;
-      document.getElementById('navPredict').textContent = t.navPredict;
-      document.getElementById('navSoil').textContent = t.navSoil;
-      document.getElementById('navCommunity').textContent = t.navCommunity;
-      document.getElementById('navProfile').textContent = t.navProfile;
+      function setText(id, key) {
+        const el = document.getElementById(id);
+        if (el && t[key]) el.textContent = t[key];
+      }
+      setText('title', 'title');
+      setText('subtitle', 'subtitle');
+      setText('navHome', 'navHome');
+      setText('navDashboard', 'navDashboard');
+      setText('navPredict', 'navPredict');
+      setText('navSoil', 'navSoil');
+      setText('navCommunity', 'navCommunity');
+      setText('navProfile', 'navProfile');
       // Home page translations
-      document.getElementById('homeTitle').textContent = t.homeTitle;
-      document.getElementById('homeDesc').textContent = t.homeDesc;
-      document.getElementById('homeStatAvg').textContent = t.homeStatAvg;
-      document.getElementById('homeStatValue').textContent = t.homeStatValue;
-      document.getElementById('homeStatYield').textContent = t.homeStatYield;
-      document.getElementById('homeStatTip').textContent = t.homeStatTip;
-      document.getElementById('homeStatTipValue').textContent = t.homeStatTipValue;
-      document.getElementById('homeStatTipDesc').textContent = t.homeStatTipDesc;
-      document.getElementById('homeRecentPreds').textContent = t.homeRecentPreds;
-      document.getElementById('homeTipsTitle').textContent = t.homeTipsTitle;
-      document.getElementById('tip1').textContent = t.tip1;
-      document.getElementById('tip2').textContent = t.tip2;
-      document.getElementById('tip3').textContent = t.tip3;
+      setText('homeTitle', 'homeTitle');
+      setText('homeDesc', 'homeDesc');
+      setText('homeStatAvg', 'homeStatAvg');
+      setText('homeStatValue', 'homeStatValue');
+      setText('homeStatYield', 'homeStatYield');
+      setText('homeStatTip', 'homeStatTip');
+      setText('homeStatTipValue', 'homeStatTipValue');
+      setText('homeStatTipDesc', 'homeStatTipDesc');
+      setText('homeRecentPreds', 'homeRecentPreds');
+      setText('homeTipsTitle', 'homeTipsTitle');
+      setText('tip1', 'tip1');
+      setText('tip2', 'tip2');
+      setText('tip3', 'tip3');
+      // Farmer-friendly UI translations
+      setText('quickActionsTitle', 'quickActionsTitle');
+      setText('quickPredictText', 'quickPredict');
+      setText('soilQuickText', 'soilQuick');
+      setText('smartTipText', 'smartTip');
+      setText('notificationsTitle', 'notificationsTitle');
+      setText('sideNotifsText', 'sideNotifs');
+      setText('aboutTitle', 'aboutTitle');
+      setText('aboutTextContent', 'aboutText');
+      setText('weatherTitle', 'weatherTitle');
+      setText('weatherMain', 'weatherMain');
+      setText('weatherHumidity', 'weatherHumidity');
+      setText('supportTitle', 'supportTitle');
+      setText('supportTextContent', 'supportText');
+      // Always show aside (right section)
+      const aside = document.querySelector('aside');
+      if (aside) aside.style.display = '';
     });
     // --- Simple SPA routing ---
     const links = document.querySelectorAll('.navlink');
@@ -597,6 +649,7 @@
 
     // On first load, set home
     setRoute('home');
+
   </script>
 </body>
 </html>
