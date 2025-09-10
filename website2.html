@@ -58,7 +58,65 @@
     box-shadow: 0 2px 8px rgba(34,139,34,0.12);
   }
     .controls{display:flex;gap:8px;align-items:center}
-  .btn{background:var(--accent);color:#fff;padding:8px 12px;border-radius:10px;font-weight:700;border:none;cursor:pointer}
+  .btn{
+    background:var(--accent);
+    color:#fff;
+    padding:0;
+    width:48px;
+    height:48px;
+    border-radius:50%;
+    font-weight:700;
+    border:none;
+    cursor:pointer;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    position:relative;
+    transition:background 0.2s, box-shadow 0.2s, transform 0.18s cubic-bezier(.77,0,.18,1);
+    box-shadow:0 2px 8px rgba(34,139,34,0.10);
+    will-change: transform;
+  }
+  .btn:hover {
+    transform: translateY(-10px) scale(1.08);
+    box-shadow:0 8px 24px rgba(34,139,34,0.18);
+    z-index:2;
+  }
+  .btn:hover svg {
+    transform: translateY(-4px) scale(1.08);
+    transition: transform 0.18s cubic-bezier(.77,0,.18,1);
+  }
+  .btn svg {
+    transition: transform 0.18s cubic-bezier(.77,0,.18,1);
+  }
+  .btn .btn-text {
+    display:none;
+    position:absolute;
+    left:50%;
+    top:56px;
+    transform:translateX(-50%);
+    background:#fff;
+    color:#228B22;
+    padding:4px 10px;
+    border-radius:8px;
+    font-size:12px;
+    font-weight:500;
+    box-shadow:0 2px 8px rgba(34,139,34,0.10);
+    white-space:nowrap;
+    z-index:10;
+    min-width:80px;
+    text-align:center;
+    max-width:120px;
+    overflow:hidden;
+    text-overflow:ellipsis;
+  }
+  .btn:hover .btn-text {
+    display:block;
+    animation:fadeInText 0.2s;
+  }
+  @keyframes fadeInText {
+    0% { opacity:0; transform:translateX(-50%) scale(0.95); }
+    100% { opacity:1; transform:translateX(-50%) scale(1); }
+  }
     .ghost{background:transparent;border:1px solid var(--glass);padding:8px 12px;border-radius:10px;color:var(--muted);cursor:pointer}
 
     /* main grid */
@@ -151,10 +209,87 @@
     .post+ .post{margin-top:10px}
 
     /* responsive */
-    @media (max-width:980px){
-      .grid{grid-template-columns:1fr}
-      header{flex-direction:column;align-items:flex-start;gap:12px}
-      .controls{width:100%;justify-content:space-between}
+    @media (max-width:980px) {
+      .grid {
+        display: flex;
+        flex-direction: column;
+        gap: 0;
+      }
+      main {
+        width: 100%;
+        padding: 0;
+        min-height: auto;
+      }
+      aside {
+        width: 100%;
+        margin-top: 18px;
+        display: flex;
+        flex-direction: column;
+        gap: 18px;
+        position: static !important;
+      }
+      .card {
+        width: 100%;
+        min-width: 0;
+        margin-bottom: 12px;
+        box-sizing: border-box;
+      }
+      header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+        width: 100%;
+      }
+      .controls {
+        width: 100%;
+        justify-content: space-between;
+      }
+      nav {
+        position: static !important;
+        width: 100%;
+        margin-top: 8px;
+        justify-content: flex-start;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+      .navlink {
+        flex: 1 1 40%;
+        min-width: 120px;
+        margin-bottom: 6px;
+        text-align: center;
+      }
+      .hero {
+        flex-direction: column;
+        gap: 18px;
+        padding: 24px 10px;
+        min-height: 220px;
+      }
+      .stat-row {
+        flex-direction: column;
+        gap: 12px;
+      }
+      .card.hero {
+        min-height: 220px;
+      }
+      .card {
+        padding: 16px 8px;
+      }
+      .brand {
+        flex-direction: row;
+        gap: 8px;
+      }
+      .logo {
+        width: 44px;
+        height: 44px;
+        font-size: 16px;
+      }
+      #langSelect {
+        font-size: 15px;
+        padding: 8px 10px;
+      }
+      .pages {
+        margin-top: 12px;
+      }
     }
 
     /* Micro animations */
@@ -200,8 +335,51 @@
       </div>
       <!-- Move controls to bottom right of header -->
       <div style="position:fixed;bottom:24px;right:24px;z-index:1000;display:flex;gap:10px;">
-        <button id="saveProfileBtn" class="ghost">Save Profile</button>
-        <button id="exportBtn" class="btn">Export Report</button>
+  <div style="display:flex;flex-direction:column;align-items:center;gap:18px;width:100%;">
+    <!-- Farmer AI Voice Assistant -->
+    <button id="farmerVoiceBtn" class="btn" style="background:#43A047;">
+      <span>
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" style="vertical-align:middle;" xmlns="http://www.w3.org/2000/svg">
+          <ellipse cx="12" cy="20" rx="8" ry="3" fill="#8BC34A"/>
+          <rect x="9" y="5" width="6" height="10" rx="3" fill="#228B22"/>
+          <rect x="11" y="2" width="2" height="4" rx="1" fill="#FFD700"/>
+          <rect x="10" y="15" width="4" height="2" rx="1" fill="#43A047"/>
+        </svg>
+      </span>
+      <span class="btn-text" id="farmerVoiceBtnText">Farmer AI Voice Assistant</span>
+    </button>
+    <div id="farmerVoiceBox" style="display:none;margin-top:12px;min-width:220px;max-width:320px;padding:18px 16px;border-radius:16px;background:linear-gradient(120deg,#e6f4ea 60%,#fff 100%);box-shadow:0 8px 32px rgba(34,139,34,0.18);color:#228B22;font-size:1.08em;font-weight:500;transition:opacity 0.3s,transform 0.3s;opacity:0;position:relative;"></div>
+    <!-- Existing Save/Export buttons -->
+    <button id="saveProfileBtn" class="btn" style="background:#fff;color:#228B22;border:1px solid #228B22;">
+      <span style="position:relative;top:-6px;">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" style="vertical-align:middle;" xmlns="http://www.w3.org/2000/svg">
+          <path d="M5 20h14a1 1 0 0 0 1-1V7a1 1 0 0 0-1-1h-4V4a2 2 0 0 0-2-2h-2a2 2 0 0 0-2 2v2H5a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1z" stroke="#228B22" stroke-width="2" fill="#fff"/>
+          <rect x="9" y="4" width="6" height="2" rx="1" fill="#228B22"/>
+        </svg>
+      </span>
+      <span class="btn-text" style="top:48px;">Save Profile</span>
+    </button>
+    <button id="exportBtn" class="btn" style="background:#FFD700;color:#228B22;">
+      <span>
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" style="vertical-align:middle;" xmlns="http://www.w3.org/2000/svg">
+          <rect x="4" y="4" width="16" height="16" rx="3" fill="#FFD700" stroke="#228B22" stroke-width="2"/>
+          <path d="M8 12h8M8 16h8" stroke="#228B22" stroke-width="2" stroke-linecap="round"/>
+          <path d="M12 8v8" stroke="#228B22" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </span>
+      <span class="btn-text">Export Report</span>
+    </button>
+  </div>
+        <style>
+          @keyframes speechFadeIn {
+            0% { opacity: 0; transform: translateY(24px) scale(0.95); }
+            100% { opacity: 1; transform: translateY(0) scale(1); }
+          }
+          #speechBtn:active {
+            background: #388E3C;
+            box-shadow: 0 4px 16px #43A04788;
+          }
+        </style>
       </div>
       <!-- Fixed language selector at bottom left -->
       <div style="position:fixed;bottom:24px;left:24px;z-index:1000;">
@@ -220,11 +398,11 @@
         <!-- Home -->
         <section id="home" class="pages">
           <!-- Friendly Welcome Banner (only on home page) -->
-          <div class="card" style="background:linear-gradient(90deg,#e6f4ea 60%,#fff 100%);display:flex;align-items:center;gap:24px;margin-bottom:18px;box-shadow:0 4px 16px rgba(34,139,34,0.08);">
-            <div>
-              <h2 style="margin:0 0 8px 0;font-size:1.6em;color:#228B22">Welcome, Farmer!</h2>
-              <div style="font-size:1em;color:#228B22">Empowering you with smart tools for better yield and healthy soil.</div>
-            </div>
+            <div class="card" style="background:linear-gradient(90deg,#e6f4ea 60%,#fff 100%);display:flex;align-items:center;gap:24px;margin-bottom:18px;box-shadow:0 4px 16px rgba(34,139,34,0.08);">
+              <div>
+                <h2 id="welcomeTitle" style="margin:0 0 8px 0;font-size:1.6em;color:#228B22">Welcome, Farmer!</h2>
+                <div id="welcomeDesc" style="font-size:1em;color:#228B22">Empowering you with smart tools for better yield and healthy soil.</div>
+              </div>
             <div style="width:120px;height:80px;">
               <!-- Simple SVG farm illustration -->
               <svg viewBox="0 0 120 80" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -473,9 +651,70 @@
   </div>
 
   <script>
+    // Farmer AI Voice Assistant logic
+    const farmerVoiceBtn = document.getElementById('farmerVoiceBtn');
+    const farmerVoiceBtnText = document.getElementById('farmerVoiceBtnText');
+    const farmerVoiceBox = document.getElementById('farmerVoiceBox');
+    let farmerRecognition;
+    if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+      farmerRecognition = new SpeechRecognition();
+      farmerRecognition.lang = 'en-US'; // Always English for now
+      farmerRecognition.continuous = false;
+      farmerRecognition.interimResults = false;
+      farmerVoiceBtn.onclick = () => {
+        farmerVoiceBox.style.display = 'block';
+        farmerVoiceBox.style.opacity = '0';
+        farmerVoiceBox.style.transform = 'translateY(24px) scale(0.98)';
+        setTimeout(() => {
+          farmerVoiceBox.style.opacity = '1';
+          farmerVoiceBox.style.transform = 'translateY(0) scale(1)';
+          farmerVoiceBox.textContent = 'Listening...';
+        }, 10);
+        farmerVoiceBtnText.textContent = 'Listening...';
+        farmerVoiceBtn.style.background = '#FFD700';
+        farmerRecognition.start();
+      };
+      farmerRecognition.onend = () => {
+        farmerVoiceBtnText.textContent = 'Farmer AI Voice Assistant';
+        farmerVoiceBtn.style.background = '#43A047';
+      };
+      farmerRecognition.onerror = (e) => {
+        farmerVoiceBox.textContent = 'Error: ' + e.error;
+        farmerVoiceBtnText.textContent = 'Farmer AI Voice Assistant';
+        farmerVoiceBtn.style.background = '#43A047';
+      };
+      farmerRecognition.onresult = (event) => {
+        const transcript = event.results[0][0].transcript;
+        // Mock AI reply logic
+        let aiReply = '';
+        if (transcript.toLowerCase().includes('weather')) {
+          aiReply = 'The weather is clear and 28°C.';
+        } else if (transcript.toLowerCase().includes('yield')) {
+          aiReply = 'Your predicted crop yield is 3.4 tons per hectare.';
+        } else if (transcript.toLowerCase().includes('tip')) {
+          aiReply = 'Tip: Use well-decomposed compost for better yield.';
+        } else {
+          aiReply = 'Sorry, I can help with weather, yield, or farming tips. Please ask about those.';
+        }
+        farmerVoiceBox.innerHTML = `<b>You said:</b> ${transcript}<br><b>AI Reply:</b> ${aiReply}`;
+        // Speak reply
+        const utterance = new SpeechSynthesisUtterance(aiReply);
+        utterance.lang = 'en-US';
+        speechSynthesis.speak(utterance);
+      };
+    } else {
+      farmerVoiceBtn.onclick = () => {
+        farmerVoiceBox.style.display = 'block';
+        farmerVoiceBox.style.opacity = '1';
+        farmerVoiceBox.textContent = 'Speech recognition not supported on this browser.';
+      };
+    }
     // Simple translations for demonstration
   const translations = {
       en: {
+        welcomeTitle: "Welcome, Farmer!",
+        welcomeDesc: "Empowering you with smart tools for better yield and healthy soil.",
         newsTitle: "Daily News for Farmers",
         news1: "Rainfall Alert: IMD forecasts moderate rain in eastern states this week. Plan irrigation accordingly.",
         news2: "Crop MSP Update: Government announces higher Minimum Support Price for wheat and rice.",
@@ -505,6 +744,8 @@
         tip3: "Rotate crops to reduce pests and maintain nutrients."
       },
       hi: {
+        welcomeTitle: "स्वागत है, किसान!",
+        welcomeDesc: "बेहतर उपज और स्वस्थ मिट्टी के लिए स्मार्ट टूल्स के साथ सशक्तिकरण।",
         newsTitle: "किसानों के लिए दैनिक समाचार",
         news1: "वर्षा अलर्ट: इस सप्ताह पूर्वी राज्यों में मध्यम वर्षा की संभावना। सिंचाई की योजना बनाएं।",
         news2: "फसल एमएसपी अपडेट: सरकार ने गेहूं और चावल के लिए न्यूनतम समर्थन मूल्य बढ़ाया।",
@@ -534,6 +775,8 @@
         tip3: "कीटों को कम करने और पोषक तत्व बनाए रखने के लिए फसल चक्र बदलें।"
       },
       bn: {
+        welcomeTitle: "স্বাগতম, কৃষক!",
+        welcomeDesc: "ভাল ফলন ও স্বাস্থ্যকর মাটির জন্য স্মার্ট টুলস দিয়ে আপনাকে ক্ষমতায়ন।",
         newsTitle: "কৃষকদের জন্য দৈনিক সংবাদ",
         news1: "বৃষ্টির সতর্কতা: এই সপ্তাহে পূর্বাঞ্চলীয় রাজ্যগুলিতে মাঝারি বৃষ্টির পূর্বাভাস। সেচের পরিকল্পনা করুন।",
         news2: "ফসল এমএসপি আপডেট: সরকার গম ও চালের জন্য ন্যূনতম সহায়তা মূল্য বাড়িয়েছে।",
@@ -563,6 +806,8 @@
         tip3: "পোকামাকড় কমাতে এবং পুষ্টি বজায় রাখতে ফসল ঘুরান।"
       },
       mr: {
+        welcomeTitle: "स्वागत आहे, शेतकरी!",
+        welcomeDesc: "उत्तम उत्पादन आणि निरोगी मातीसाठी स्मार्ट साधनांसह सशक्तीकरण.",
         newsTitle: "शेतकऱ्यांसाठी दैनिक बातम्या",
         news1: "पावसाचा इशारा: या आठवड्यात पूर्वेकडील राज्यांमध्ये मध्यम पावसाचा अंदाज. सिंचनाची योजना करा.",
         news2: "पीक एमएसपी अपडेट: सरकारने गहू आणि तांदळासाठी किमान आधारभूत किंमत वाढवली आहे.",
@@ -608,9 +853,11 @@
       setText('navSoil', 'navSoil');
       setText('navCommunity', 'navCommunity');
       setText('navProfile', 'navProfile');
-      // Home page translations
-      setText('homeTitle', 'homeTitle');
-      setText('homeDesc', 'homeDesc');
+  // Home page translations
+  setText('homeTitle', 'homeTitle');
+  setText('homeDesc', 'homeDesc');
+  setText('welcomeTitle', 'welcomeTitle');
+  setText('welcomeDesc', 'welcomeDesc');
       setText('homeStatAvg', 'homeStatAvg');
       setText('homeStatValue', 'homeStatValue');
       setText('homeStatYield', 'homeStatYield');
@@ -796,5 +1043,51 @@
     setRoute('home');
 
   </script>
+
+  <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>AI Voice Assistant</title>
+</head>
+<body>
+  <h1>Farmer AI Voice Assistant</h1>
+  <button id="start">🎙️ Speak</button>
+  <p><b>You said:</b> <span id="speech"></span></p>
+  <p><b>AI Reply:</b> <span id="reply"></span></p>
+
+  <script>
+    const startBtn = document.getElementById("start");
+    const speechEl = document.getElementById("speech");
+    const replyEl = document.getElementById("reply");
+
+    // 🎙️ Speech Recognition
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    const recognition = new SpeechRecognition();
+    recognition.lang = "hi-IN"; // Change to farmer's language
+    recognition.interimResults = false;
+
+    startBtn.onclick = () => {
+      recognition.start();
+    };
+
+    recognition.onresult = async (event) => {
+      const farmerSpeech = event.results[0][0].transcript;
+      speechEl.textContent = farmerSpeech;
+
+      // 👉 Send farmerSpeech to your AI backend (for now, mock reply)
+      const aiResponse = "आपकी फसल अच्छी है। अधिक उपज के लिए सिंचाई पर ध्यान दें।";
+
+      replyEl.textContent = aiResponse;
+
+      // 🔊 Speak back to farmer
+      const utterance = new SpeechSynthesisUtterance(aiResponse);
+      utterance.lang = "hi-IN";
+      speechSynthesis.speak(utterance);
+    };
+  </script>
+</body>
+</html>
+
 </body>
 </html>
