@@ -10,16 +10,6 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
   <style>
-    /* Logo box animation */
-    .logo-animate {
-      opacity: 0;
-      transform: scale(0.92) translateY(12px);
-      animation: logoFadeIn 1.2s cubic-bezier(.77,0,.18,1) 0.2s forwards;
-    }
-    @keyframes logoFadeIn {
-      0% { opacity: 0; transform: scale(0.92) translateY(12px); }
-      100% { opacity: 1; transform: scale(1) translateY(0); }
-    }
     :root{
       --bg: #fff;
       --card: #e6f4ea;
@@ -37,18 +27,8 @@
       margin:0;
       font-family:var(--mono);
       background:
-        linear-gradient(180deg,#fff 0%, #e6f4ea 70%, #c8e6c9 100%),
+        linear-gradient(180deg,#fff 0%, #e6f4ea 60%, #c8e6c9 100%),
         linear-gradient(0deg,rgba(34,139,34,0.04) 0%,rgba(34,139,34,0.08) 100%);
-      position:relative;
-    /* SVG pattern overlay for background design */
-    .bg-pattern {
-      position:fixed;
-      top:0; left:0; width:100vw; height:100vh;
-      pointer-events:none;
-      z-index:0;
-      opacity:0.18;
-      background: none;
-    }
       color:#228B22;
       -webkit-font-smoothing:antialiased;
       -moz-osx-font-smoothing:grayscale;
@@ -78,65 +58,7 @@
     box-shadow: 0 2px 8px rgba(34,139,34,0.12);
   }
     .controls{display:flex;gap:8px;align-items:center}
-  .btn{
-    background:var(--accent);
-    color:#fff;
-    padding:0;
-    width:48px;
-    height:48px;
-    border-radius:50%;
-    font-weight:700;
-    border:none;
-    cursor:pointer;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    position:relative;
-    transition:background 0.2s, box-shadow 0.2s, transform 0.18s cubic-bezier(.77,0,.18,1);
-    box-shadow:0 2px 8px rgba(34,139,34,0.10);
-    will-change: transform;
-  }
-  .btn:hover {
-    transform: translateY(-10px) scale(1.08);
-    box-shadow:0 8px 24px rgba(34,139,34,0.18);
-    z-index:2;
-  }
-  .btn:hover svg {
-    transform: translateY(-4px) scale(1.08);
-    transition: transform 0.18s cubic-bezier(.77,0,.18,1);
-  }
-  .btn svg {
-    transition: transform 0.18s cubic-bezier(.77,0,.18,1);
-  }
-  .btn .btn-text {
-    display:none;
-    position:absolute;
-    left:50%;
-    top:56px;
-    transform:translateX(-50%);
-    background:#fff;
-    color:#228B22;
-    padding:4px 10px;
-    border-radius:8px;
-    font-size:12px;
-    font-weight:500;
-    box-shadow:0 2px 8px rgba(34,139,34,0.10);
-    white-space:nowrap;
-    z-index:10;
-    min-width:80px;
-    text-align:center;
-    max-width:120px;
-    overflow:hidden;
-    text-overflow:ellipsis;
-  }
-  .btn:hover .btn-text {
-    display:block;
-    animation:fadeInText 0.2s;
-  }
-  @keyframes fadeInText {
-    0% { opacity:0; transform:translateX(-50%) scale(0.95); }
-    100% { opacity:1; transform:translateX(-50%) scale(1); }
-  }
+  .btn{background:var(--accent);color:#fff;padding:8px 12px;border-radius:10px;font-weight:700;border:none;cursor:pointer}
     .ghost{background:transparent;border:1px solid var(--glass);padding:8px 12px;border-radius:10px;color:var(--muted);cursor:pointer}
 
     /* main grid */
@@ -229,87 +151,10 @@
     .post+ .post{margin-top:10px}
 
     /* responsive */
-    @media (max-width:980px) {
-      .grid {
-        display: flex;
-        flex-direction: column;
-        gap: 0;
-      }
-      main {
-        width: 100%;
-        padding: 0;
-        min-height: auto;
-      }
-      aside {
-        width: 100%;
-        margin-top: 18px;
-        display: flex;
-        flex-direction: column;
-        gap: 18px;
-        position: static !important;
-      }
-      .card {
-        width: 100%;
-        min-width: 0;
-        margin-bottom: 12px;
-        box-sizing: border-box;
-      }
-      header {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 12px;
-        width: 100%;
-      }
-      .controls {
-        width: 100%;
-        justify-content: space-between;
-      }
-      nav {
-        position: static !important;
-        width: 100%;
-        margin-top: 8px;
-        justify-content: flex-start;
-        flex-wrap: wrap;
-        gap: 8px;
-      }
-      .navlink {
-        flex: 1 1 40%;
-        min-width: 120px;
-        margin-bottom: 6px;
-        text-align: center;
-      }
-      .hero {
-        flex-direction: column;
-        gap: 18px;
-        padding: 24px 10px;
-        min-height: 220px;
-      }
-      .stat-row {
-        flex-direction: column;
-        gap: 12px;
-      }
-      .card.hero {
-        min-height: 220px;
-      }
-      .card {
-        padding: 16px 8px;
-      }
-      .brand {
-        flex-direction: row;
-        gap: 8px;
-      }
-      .logo {
-        width: 44px;
-        height: 44px;
-        font-size: 16px;
-      }
-      #langSelect {
-        font-size: 15px;
-        padding: 8px 10px;
-      }
-      .pages {
-        margin-top: 12px;
-      }
+    @media (max-width:980px){
+      .grid{grid-template-columns:1fr}
+      header{flex-direction:column;align-items:flex-start;gap:12px}
+      .controls{width:100%;justify-content:space-between}
     }
 
     /* Micro animations */
@@ -323,26 +168,22 @@
   </style>
 </head>
 <body>
-  <div class="bg-pattern">
-    <svg width="100%" height="100%" viewBox="0 0 1440 900" fill="none" xmlns="http://www.w3.org/2000/svg" style="position:absolute;top:0;left:0;width:100vw;height:100vh;">
-      <circle cx="220" cy="180" r="80" fill="#c8e6c9" />
-      <circle cx="1220" cy="120" r="60" fill="#e6f4ea" />
-      <ellipse cx="900" cy="700" rx="120" ry="60" fill="#e6f4ea" />
-      <ellipse cx="400" cy="800" rx="90" ry="40" fill="#c8e6c9" />
-      <rect x="600" y="100" width="180" height="40" rx="20" fill="#e6f4ea" />
-      <rect x="100" y="700" width="120" height="30" rx="15" fill="#c8e6c9" />
-    </svg>
-  </div>
   <div class="app">
     <header>
       <div class="brand" style="flex:1;display:flex;align-items:center;">
         <div class="logo" style="display:flex;align-items:center;justify-content:center;">
-          
-          <img class="logo-animate" src="logo2.png" alt="Logo" style="width:54px;height:54px;border-radius:14px;object-fit:cover;background:transparent;border:none;box-shadow:none;filter:brightness(0) invert(1);" />
+          <!-- Leaf/Crop SVG Icon -->
+          <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <ellipse cx="20" cy="32" rx="14" ry="6" fill="#8BC34A"/>
+            <path d="M20 32C20 20 32 12 32 12C32 12 28 24 20 32Z" fill="#228B22"/>
+            <path d="M20 32C20 20 8 12 8 12C8 12 12 24 20 32Z" fill="#43A047"/>
+            <path d="M20 32C20 24 20 16 20 8" stroke="#FFD700" stroke-width="2" stroke-linecap="round"/>
+            <circle cx="20" cy="8" r="3" fill="#FFD700"/>
+          </svg>
         </div>
         <div>
-          <div id="title" style="font-weight:800;font-size:2em;">FarmEase</div>
-          <div id="subtitle" style="font-size:13px;color:var(--muted)">AI Crop Yield Prototype</div>
+          <div id="title" style="font-weight:800">AI Crop Yield Prototype</div>
+          <div id="subtitle" style="font-size:13px;color:var(--muted)">FarmEase</div>
         </div>
       </div>
 
@@ -357,55 +198,12 @@
 
       <div class="controls">
       </div>
-      
+      <!-- Move controls to bottom right of header -->
       <div style="position:fixed;bottom:24px;right:24px;z-index:1000;display:flex;gap:10px;">
-  <div style="display:flex;flex-direction:column;align-items:center;gap:18px;width:100%;">
-    
-    <button id="farmerVoiceBtn" class="btn" style="background:#43A047;">
-      <span>
-        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" style="vertical-align:middle;" xmlns="http://www.w3.org/2000/svg">
-          <ellipse cx="12" cy="20" rx="8" ry="3" fill="#8BC34A"/>
-          <rect x="9" y="5" width="6" height="10" rx="3" fill="#228B22"/>
-          <rect x="11" y="2" width="2" height="4" rx="1" fill="#FFD700"/>
-          <rect x="10" y="15" width="4" height="2" rx="1" fill="#43A047"/>
-        </svg>
-      </span>
-      <span class="btn-text" id="farmerVoiceBtnText">Farmer AI Voice Assistant</span>
-    </button>
-    <div id="farmerVoiceBox" style="display:none;margin-top:12px;min-width:220px;max-width:320px;padding:18px 16px;border-radius:16px;background:linear-gradient(120deg,#e6f4ea 60%,#fff 100%);box-shadow:0 8px 32px rgba(34,139,34,0.18);color:#228B22;font-size:1.08em;font-weight:500;transition:opacity 0.3s,transform 0.3s;opacity:0;position:relative;"></div>
-    
-    <button id="saveProfileBtn" class="btn" style="background:#fff;color:#228B22;border:1px solid #228B22;">
-      <span style="position:relative;top:-6px;">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" style="vertical-align:middle;" xmlns="http://www.w3.org/2000/svg">
-          <path d="M5 20h14a1 1 0 0 0 1-1V7a1 1 0 0 0-1-1h-4V4a2 2 0 0 0-2-2h-2a2 2 0 0 0-2 2v2H5a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1z" stroke="#228B22" stroke-width="2" fill="#fff"/>
-          <rect x="9" y="4" width="6" height="2" rx="1" fill="#228B22"/>
-        </svg>
-      </span>
-      <span class="btn-text" style="top:48px;">Save Profile</span>
-    </button>
-    <button id="exportBtn" class="btn" style="background:#FFD700;color:#228B22;">
-      <span>
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" style="vertical-align:middle;" xmlns="http://www.w3.org/2000/svg">
-          <rect x="4" y="4" width="16" height="16" rx="3" fill="#FFD700" stroke="#228B22" stroke-width="2"/>
-          <path d="M8 12h8M8 16h8" stroke="#228B22" stroke-width="2" stroke-linecap="round"/>
-          <path d="M12 8v8" stroke="#228B22" stroke-width="2" stroke-linecap="round"/>
-        </svg>
-      </span>
-      <span class="btn-text">Export Report</span>
-    </button>
-  </div>
-        <style>
-          @keyframes speechFadeIn {
-            0% { opacity: 0; transform: translateY(24px) scale(0.95); }
-            100% { opacity: 1; transform: translateY(0) scale(1); }
-          }
-          #speechBtn:active {
-            background: #388E3C;
-            box-shadow: 0 4px 16px #43A04788;
-          }
-        </style>
+        <button id="saveProfileBtn" class="ghost">Save Profile</button>
+        <button id="exportBtn" class="btn">Export Report</button>
       </div>
-      
+      <!-- Fixed language selector at bottom left -->
       <div style="position:fixed;bottom:24px;left:24px;z-index:1000;">
         <select id="langSelect" style="padding:10px 16px;border-radius:8px;border:1px solid #228B22;font-size:16px;box-shadow:0 2px 8px rgba(34,139,34,0.12);">
           <option value="en">English</option>
@@ -418,17 +216,17 @@
 
     <div class="grid">
       <main>
-  
+  <!-- ...existing code... -->
         <!-- Home -->
         <section id="home" class="pages">
-          
-            <div class="card" style="background:linear-gradient(90deg,#e6f4ea 60%,#fff 100%);display:flex;align-items:center;gap:24px;margin-bottom:18px;box-shadow:0 4px 16px rgba(34,139,34,0.08);">
-              <div>
-                <h2 id="welcomeTitle" style="margin:0 0 8px 0;font-size:1.6em;color:#228B22">Welcome, Farmer!</h2>
-                <div id="welcomeDesc" style="font-size:1em;color:#228B22">Empowering you with smart tools for better yield and healthy soil.</div>
-              </div>
+          <!-- Friendly Welcome Banner (only on home page) -->
+          <div class="card" style="background:linear-gradient(90deg,#e6f4ea 60%,#fff 100%);display:flex;align-items:center;gap:24px;margin-bottom:18px;box-shadow:0 4px 16px rgba(34,139,34,0.08);">
+            <div>
+              <h2 style="margin:0 0 8px 0;font-size:1.6em;color:#228B22">Welcome, Farmer!</h2>
+              <div style="font-size:1em;color:#228B22">Empowering you with smart tools for better yield and healthy soil.</div>
+            </div>
             <div style="width:120px;height:80px;">
-              
+              <!-- Simple SVG farm illustration -->
               <svg viewBox="0 0 120 80" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <rect x="10" y="50" width="100" height="20" fill="#8BC34A"/>
                 <ellipse cx="60" cy="60" rx="40" ry="15" fill="#43A047"/>
@@ -440,10 +238,10 @@
             </div>
           </div>
           <div class="card hero" style="position:relative;overflow:visible;width:100%;box-sizing:border-box;min-height:320px;">
-            <div style="flex:1;z-index:2;position:relative;padding-right:32px;">
+            <div style="flex:1;z-index:2;position:relative;">
               <h1 id="homeTitle">Smart yield predictions for small farms</h1>
               <p id="homeDesc">Use minimal inputs — soil, weather window & seed variety — and get actionable recommendations to improve yield and profit.</p>
-              <div class="stat-row" style="margin-top:32px;">
+              <div class="stat-row">
                 <div class="stat" style="animation:fadeInUp 1.6s cubic-bezier(.77,0,.18,1) both;">
                   <small class="muted" id="homeStatAvg">Avg increase</small>
                   <strong id="homeStatValue">+18%</strong>
@@ -458,7 +256,7 @@
             </div>
             <div style="width:340px;z-index:1;position:relative;">
               <canvas id="heroChart" width="320" height="160" style="filter:drop-shadow(0 8px 32px #43A04788);border-radius:18px;animation:heroFadeIn 1.2s cubic-bezier(.77,0,.18,1) both;"></canvas>
-              
+              <!-- 3D SVG farm illustration -->
               <svg viewBox="0 0 180 120" style="position:absolute;top:24px;right:-40px;width:180px;height:120px;z-index:0;filter:drop-shadow(0 12px 32px #228B2288);" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <ellipse cx="90" cy="100" rx="70" ry="18" fill="#8BC34A"/>
                 <ellipse cx="90" cy="90" rx="60" ry="14" fill="#43A047"/>
@@ -471,7 +269,7 @@
                 <ellipse cx="120" cy="80" rx="10" ry="6" fill="#43A047"/>
               </svg>
             </div>
-            
+            <!-- Animated floating leaves -->
             <div style="position:absolute;top:-24px;left:-32px;z-index:0;pointer-events:none;">
               <svg width="80" height="80" viewBox="0 0 80 80" style="animation:leafFloat 6s infinite alternate ease-in-out;" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <ellipse cx="40" cy="60" rx="24" ry="8" fill="#8BC34A"/>
@@ -487,12 +285,12 @@
             </style>
           </div>
 
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:32px;margin-top:32px;width:100%;box-sizing:border-box;">
-            <div class="card" style="min-height:220px;display:flex;flex-direction:column;justify-content:space-between;padding:28px 24px;">
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:24px;width:100%;box-sizing:border-box;">
+            <div class="card" style="min-height:220px;display:flex;flex-direction:column;justify-content:space-between;">
               <h3 style="margin-top:0" id="homeRecentPreds">Recent Predictions</h3>
               <div id="recentPreds"></div>
             </div>
-            <div class="card" style="min-height:220px;display:flex;flex-direction:column;justify-content:space-between;padding:28px 24px;">
+            <div class="card" style="min-height:220px;display:flex;flex-direction:column;justify-content:space-between;">
               <h3 style="margin-top:0" id="homeTipsTitle">Tips for farmers</h3>
               <ul id="tipsList">
                 <li id="tip1">Use well-decomposed compost with recommended dose.</li>
@@ -501,8 +299,8 @@
               </ul>
             </div>
           </div>
-          
-          <div class="card" style="margin-top:40px;box-shadow:0 8px 32px #228B2288;animation:fadeInUp 2s cubic-bezier(.77,0,.18,1) both;min-height:180px;display:flex;flex-direction:column;justify-content:space-between;width:100%;box-sizing:border-box;padding:28px 24px;">
+          <!-- Daily News Section -->
+          <div class="card" style="margin-top:32px;box-shadow:0 8px 32px #228B2288;animation:fadeInUp 2s cubic-bezier(.77,0,.18,1) both;min-height:180px;display:flex;flex-direction:column;justify-content:space-between;width:100%;box-sizing:border-box;">
             <h3 style="margin-top:0;color:#228B22;font-size:1.3em;letter-spacing:1px;">🌱 <span id="newsTitle">Daily News for Farmers</span></h3>
             <ul id="newsList" style="padding-left:18px;margin:0;list-style:none;">
               <li style="margin-bottom:10px;animation:fadeInUp 2.2s cubic-bezier(.77,0,.18,1) both;"><b>Rainfall Alert:</b> IMD forecasts moderate rain in eastern states this week. <span style="color:#43A047">Plan irrigation accordingly.</span></li>
@@ -637,7 +435,7 @@
       </main>
 
       <aside>
-        
+        <!-- Weather Widget -->
         <div class="card" style="margin-bottom:12px;display:flex;align-items:center;gap:12px;">
           <div>
             <h4 style="margin:0;color:#228B22" id="weatherTitle">Weather</h4>
@@ -663,7 +461,7 @@
           <h4 style="margin:0" id="aboutTitle">About <span title="Learn more about this tool" style="cursor:help;color:#228B22">❓</span></h4>
           <div id="aboutText" style="color:var(--muted);margin-top:8px;font-size:13px"><span id="aboutTextContent">Prototype for hackathon. Replace prediction logic with backend ML model, connect weather API and satellite data for production.</span></div>
         </div>
-        
+        <!-- Support Card -->
         <div class="card" style="margin-top:12px;background:#e6f4ea;">
           <h4 style="margin:0;color:#228B22" id="supportTitle">Support <span title="Contact for help" style="cursor:help;color:#228B22">❓</span></h4>
           <div id="supportText" style="color:#228B22;margin-top:8px;font-size:14px"><span id="supportTextContent">Need help? Call <b>1800-123-456</b> or visit your local agriculture office.</span></div>
@@ -675,82 +473,9 @@
   </div>
 
   <script>
-    // Farmer AI Voice Assistant logic
-    const farmerVoiceBtn = document.getElementById('farmerVoiceBtn');
-    const farmerVoiceBtnText = document.getElementById('farmerVoiceBtnText');
-    const farmerVoiceBox = document.getElementById('farmerVoiceBox');
-    let farmerRecognition;
-    if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
-      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-      farmerRecognition = new SpeechRecognition();
-      farmerRecognition.lang = 'en-US'; // Always English for now
-      farmerRecognition.continuous = false;
-      farmerRecognition.interimResults = false;
-      farmerVoiceBtn.onclick = () => {
-        farmerVoiceBox.style.display = 'block';
-        farmerVoiceBox.style.opacity = '0';
-        farmerVoiceBox.style.transform = 'translateY(24px) scale(0.98)';
-        setTimeout(() => {
-          farmerVoiceBox.style.opacity = '1';
-          farmerVoiceBox.style.transform = 'translateY(0) scale(1)';
-          farmerVoiceBox.textContent = 'Listening...';
-        }, 10);
-        farmerVoiceBtnText.textContent = 'Listening...';
-        farmerVoiceBtn.style.background = '#FFD700';
-        farmerRecognition.start();
-        // Auto-stop after 5 seconds if no speech detected
-        window.farmerVoiceTimeout = setTimeout(() => {
-          if (farmerVoiceBtnText.textContent === 'Listening...') {
-            farmerRecognition.stop();
-            farmerVoiceBox.textContent = 'No question detected. Listening stopped.';
-            farmerVoiceBtnText.textContent = 'Farmer AI Voice Assistant';
-            farmerVoiceBtn.style.background = '#43A047';
-          }
-        }, 5000);
-      };
-      farmerRecognition.onend = () => {
-  farmerVoiceBtnText.textContent = 'Farmer AI Voice Assistant';
-  farmerVoiceBtn.style.background = '#43A047';
-  clearTimeout(window.farmerVoiceTimeout);
-      };
-      farmerRecognition.onerror = (e) => {
-  farmerVoiceBox.textContent = 'Error: ' + e.error;
-  farmerVoiceBtnText.textContent = 'Farmer AI Voice Assistant';
-  farmerVoiceBtn.style.background = '#43A047';
-  clearTimeout(window.farmerVoiceTimeout);
-      };
-      farmerRecognition.onresult = (event) => {
-        const transcript = event.results[0][0].transcript;
-        clearTimeout(window.farmerVoiceTimeout);
-        // Mock AI reply logic
-        let aiReply = '';
-        if (transcript.toLowerCase().includes('weather')) {
-          aiReply = 'The weather is clear and 28°C.';
-        } else if (transcript.toLowerCase().includes('yield')) {
-          aiReply = 'Your predicted crop yield is 3.4 tons per hectare.';
-        } else if (transcript.toLowerCase().includes('tip')) {
-          aiReply = 'Tip: Use well-decomposed compost for better yield.';
-        } else {
-          aiReply = 'Sorry, I can help with weather, yield, or farming tips. Please ask about those.';
-        }
-        farmerVoiceBox.innerHTML = `<b>You said:</b> ${transcript}<br><b>AI Reply:</b> ${aiReply}`;
-        // Speak reply
-        const utterance = new SpeechSynthesisUtterance(aiReply);
-        utterance.lang = 'en-US';
-        speechSynthesis.speak(utterance);
-      };
-    } else {
-      farmerVoiceBtn.onclick = () => {
-        farmerVoiceBox.style.display = 'block';
-        farmerVoiceBox.style.opacity = '1';
-        farmerVoiceBox.textContent = 'Speech recognition not supported on this browser.';
-      };
-    }
     // Simple translations for demonstration
   const translations = {
       en: {
-        welcomeTitle: "Welcome, Farmer!",
-        welcomeDesc: "Empowering you with smart tools for better yield and healthy soil.",
         newsTitle: "Daily News for Farmers",
         news1: "Rainfall Alert: IMD forecasts moderate rain in eastern states this week. Plan irrigation accordingly.",
         news2: "Crop MSP Update: Government announces higher Minimum Support Price for wheat and rice.",
@@ -780,8 +505,6 @@
         tip3: "Rotate crops to reduce pests and maintain nutrients."
       },
       hi: {
-        welcomeTitle: "स्वागत है, किसान!",
-        welcomeDesc: "बेहतर उपज और स्वस्थ मिट्टी के लिए स्मार्ट टूल्स के साथ सशक्तिकरण।",
         newsTitle: "किसानों के लिए दैनिक समाचार",
         news1: "वर्षा अलर्ट: इस सप्ताह पूर्वी राज्यों में मध्यम वर्षा की संभावना। सिंचाई की योजना बनाएं।",
         news2: "फसल एमएसपी अपडेट: सरकार ने गेहूं और चावल के लिए न्यूनतम समर्थन मूल्य बढ़ाया।",
@@ -811,8 +534,6 @@
         tip3: "कीटों को कम करने और पोषक तत्व बनाए रखने के लिए फसल चक्र बदलें।"
       },
       bn: {
-        welcomeTitle: "স্বাগতম, কৃষক!",
-        welcomeDesc: "ভাল ফলন ও স্বাস্থ্যকর মাটির জন্য স্মার্ট টুলস দিয়ে আপনাকে ক্ষমতায়ন।",
         newsTitle: "কৃষকদের জন্য দৈনিক সংবাদ",
         news1: "বৃষ্টির সতর্কতা: এই সপ্তাহে পূর্বাঞ্চলীয় রাজ্যগুলিতে মাঝারি বৃষ্টির পূর্বাভাস। সেচের পরিকল্পনা করুন।",
         news2: "ফসল এমএসপি আপডেট: সরকার গম ও চালের জন্য ন্যূনতম সহায়তা মূল্য বাড়িয়েছে।",
@@ -842,8 +563,6 @@
         tip3: "পোকামাকড় কমাতে এবং পুষ্টি বজায় রাখতে ফসল ঘুরান।"
       },
       mr: {
-        welcomeTitle: "स्वागत आहे, शेतकरी!",
-        welcomeDesc: "उत्तम उत्पादन आणि निरोगी मातीसाठी स्मार्ट साधनांसह सशक्तीकरण.",
         newsTitle: "शेतकऱ्यांसाठी दैनिक बातम्या",
         news1: "पावसाचा इशारा: या आठवड्यात पूर्वेकडील राज्यांमध्ये मध्यम पावसाचा अंदाज. सिंचनाची योजना करा.",
         news2: "पीक एमएसपी अपडेट: सरकारने गहू आणि तांदळासाठी किमान आधारभूत किंमत वाढवली आहे.",
@@ -889,11 +608,9 @@
       setText('navSoil', 'navSoil');
       setText('navCommunity', 'navCommunity');
       setText('navProfile', 'navProfile');
-  // Home page translations
-  setText('homeTitle', 'homeTitle');
-  setText('homeDesc', 'homeDesc');
-  setText('welcomeTitle', 'welcomeTitle');
-  setText('welcomeDesc', 'welcomeDesc');
+      // Home page translations
+      setText('homeTitle', 'homeTitle');
+      setText('homeDesc', 'homeDesc');
       setText('homeStatAvg', 'homeStatAvg');
       setText('homeStatValue', 'homeStatValue');
       setText('homeStatYield', 'homeStatYield');
@@ -1057,23 +774,6 @@
     // --- Quick actions ---
     document.getElementById('quickPredict').addEventListener('click',()=>{ setRoute('predict'); document.getElementById('cropSelect').value='Maize'; document.getElementById('area').value='1'; document.getElementById('ph').value='6.4'; document.getElementById('oc').value='1.2'; document.getElementById('lastYield').value='2.6'; });
     document.getElementById('soilQuick').addEventListener('click',()=>{ setRoute('soil'); document.getElementById('nVal').value=40; document.getElementById('pVal').value=18; document.getElementById('kVal').value=100; document.getElementById('soilPH').value=6.3; });
-    // Helpful tips for farmers
-    const farmerTips = [
-      "Use well-decomposed compost to improve soil fertility.",
-      "Monitor soil moisture regularly to avoid over or under watering.",
-      "Rotate crops each season to reduce pests and maintain nutrients.",
-      "Apply fertilizer in split doses for better absorption.",
-      "Test your soil pH and adjust with lime or sulfur as needed.",
-      "Use mulching to conserve soil moisture and suppress weeds.",
-      "Plant disease-resistant crop varieties whenever possible.",
-      "Practice intercropping to maximize land use and reduce pest risk.",
-      "Keep farm records to track yields and improve future planning.",
-      "Join local farmer groups to share knowledge and resources."
-    ];
-    document.getElementById('smartTip').addEventListener('click',()=>{
-      const tip = farmerTips[Math.floor(Math.random()*farmerTips.length)];
-      alert('Farmer Tip: ' + tip);
-    });
 
     // --- Export report (demo) ---
     document.getElementById('exportBtn').addEventListener('click',()=>{
@@ -1096,7 +796,5 @@
     setRoute('home');
 
   </script>
-
-
 </body>
 </html>

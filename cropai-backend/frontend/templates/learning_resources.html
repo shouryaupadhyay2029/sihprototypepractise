@@ -1,0 +1,62 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>CropAI — Learning Resources</title>
+  <meta name="description" content="Learn about new farming techniques and resources." />
+  <link rel="stylesheet" href="{% static 'css/style.css' %}"> <!-- Link to external CSS -->
+</head>
+<body>
+  <header>
+    <div class="brand">
+      <div class="logo" aria-hidden></div>
+      <div>
+        <h1>CropAI</h1>
+        <small style="opacity:.85">AI-powered Crop Yield Optimization</small>
+      </div>
+    </div>
+
+    <nav>
+      <ul>
+        <li onclick="window.location.href='/'">Dashboard</li>
+        <li><a href="/learning-resources/" style="color: #fff; text-decoration: none;">Learning Resources</a></li>
+        <!-- Other navigation items as needed -->
+      </ul>
+    </nav>
+  </header>
+
+  <main class="container">
+    <h1>Learning Resources for Farmers</h1>
+    
+    <div class="resource-card">
+      <h3>Sustainable Farming Practices</h3>
+      <p>Explore methods like crop rotation, cover cropping, and no-till farming to improve soil health and reduce environmental impact.</p>
+      <a href="#">Read More</a>
+    </div>
+
+    <div class="resource-card">
+      <h3>Precision Agriculture</h3>
+      <p>Learn how to use technology like GPS, sensors, and drones for optimized irrigation, fertilization, and pest control.</p>
+      <a href="#">Read More</a>
+    </div>
+
+    <div class="resource-card">
+      <h3>Integrated Pest Management (IPM)</h3>
+      <p>Discover strategies for managing pests with minimal harm to the environment and human health, combining biological, cultural, physical, and chemical tools.</p>
+      <a href="#">Read More</a>
+    </div>
+
+    <div class="resource-card">
+      <h3>Water Management Techniques</h3>
+      <p>Understand efficient irrigation systems, water harvesting, and drought-resistant crop varieties to conserve water.</p>
+      <a href="#">Read More</a>
+    </div>
+
+    <p style="text-align: center; margin-top: 30px; color: #6b7280;">More resources coming soon!</p>
+  </main>
+
+  <footer>© 2025 CropAI</footer>
+</body>
+</html>

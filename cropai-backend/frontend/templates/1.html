@@ -1,0 +1,269 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>CropAI — Yield Prediction & Optimization</title>
+  <meta name="description" content="AI powered crop yield prediction, soil health analyzer, fertilizer recommendation and community." />
+
+  <!-- Chart.js CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+  <header>
+    <div class="brand">
+      <div class="logo" aria-hidden></div>
+      <div>
+        <h1>CropAI</h1>
+        <small style="opacity:.85">AI-powered Crop Yield Optimization</small>
+      </div>
+    </div>
+
+    <nav>
+      <ul>
+        <li onclick="scrollToSection('dashboard')">Dashboard</li>
+        <li onclick="scrollToSection('predict')">Predict</li>
+        <li onclick="scrollToSection('soil')">Soil</li>
+        <li onclick="scrollToSection('community')">Community</li>
+        <li onclick="window.location.href='/learning-resources/'">Learning Resources</li>
+      </ul>
+    </nav>
+  </header>
+
+  <main class="container">
+    <div>
+      <!-- Hero / Quick predict -->
+      <section class="card hero" id="dashboard">
+        <div class="left">
+          <h2>Smart yield predictions faster decisions for farmers</h2>
+          <p>Upload farm parameters or use the quick form below to get an instant AI-based estimate, optimization tips and fertilizer suggestions.</p>
+          <div class="cta-row">
+            <button class="btn" onclick="scrollToSection('predict')">Try Prediction</button>
+            <button class="btn ghost" onclick="scrollToSection('community')">Join Community</button>
+          </div>
+
+          <div style="margin-top:18px">
+            <div class="section-title"><h3>Quick Prediction</h3><small class="muted">Heuristic-based model</small></div>
+            <form id="quickForm" class="grid" onsubmit="handleQuick(event)">
+              <div>
+                <label for="crop_q">Crop</label>
+                <input id="crop_q" placeholder="e.g., Wheat" required />
+              </div>
+              <div>
+                <label for="area_q">Area (hectares)</label>
+                <input type="number" id="area_q" placeholder="e.g., 1" required />
+              </div>
+              <div>
+                <label for="rain_q">Rainfall (mm)</label>
+                <input type="number" id="rain_q" placeholder="e.g., 400" required />
+              </div>
+              <div>
+                <label for="temp_q">Avg Temp (°C)</label>
+                <input type="number" id="temp_q" placeholder="e.g., 25" required />
+              </div>
+              <div>
+                <label for="soil_q">Soil Type</label>
+                <select id="soil_q">
+                  <option value="loamy">Loamy</option>
+                  <option value="sandy">Sandy</option>
+                  <option value="clay">Clay</option>
+                </select>
+              </div>
+              <div style="align-self:end">
+                <button class="btn" type="submit">Estimate</button>
+              </div>
+            </form>
+
+            <div class="big-result" id="quickResult" style="display:none">
+              <div class="result-card">
+                <h3>Predicted Yield</h3>
+                <div class="result-num" id="predYield">0 kg</div>
+                <small class="muted">Per hectare</small>
+              </div>
+
+              <div style="width:220px;padding:10px">
+                <div style="font-weight:700;color:var(--green-1)">Fertilizer Recommendation</div>
+                <ul class="rec-list" id="quickRec">
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div style="flex:0.9;text-align:center">
+          <img src="https://images.unsplash.com/photo-1501004318641-b39e6451bec6?q=80&w=900&auto=format&fit=crop" alt="farm" style="width:100%;border-radius:12px;box-shadow:0 10px 30px rgba(2,6,23,0.08)" />
+        </div>
+      </section>
+
+      <!-- Deep Predict -->
+      <section class="card" id="predict" style="margin-top:18px">
+        <div class="section-title"><h3>Prediction Dashboard</h3><small class="muted">Use the full form for analytics</small></div>
+
+        <form id="predictForm" class="grid" onsubmit="handlePredict(event)">
+          <div>
+            <label for="crop">Crop</label>
+            <input id="crop" placeholder="e.g., Rice" required />
+          </div>
+          <div>
+            <label for="area">Area (hectares)</label>
+            <input id="area" type="number" placeholder="e.g., 2.5" required />
+          </div>
+          <div>
+            <label for="soil">Soil Type</label>
+            <select id="soil">
+              <option value="loamy">Loamy</option>
+              <option value="sandy">Sandy</option>
+              <option value="clay">Clay</option>
+            </select>
+          </div>
+          <div>
+            <label for="rain">Seasonal Rainfall (mm)</label>
+            <input id="rain" type="number" placeholder="e.g., 520" required />
+          </div>
+          <div>
+            <label for="temp">Avg Temp (°C)</label>
+            <input id="temp" type="number" placeholder="e.g., 27" required />
+          </div>
+          <div>
+            <label for="irrigation">Irrigation (times/month)</label>
+            <input id="irrigation" type="number" placeholder="e.g., 6" required />
+          </div>
+
+          <div style="grid-column:1/3;display:flex;gap:10px;justify-content:flex-end">
+            <button class="btn" type="submit">Run Prediction</button>
+            <button class="btn ghost" type="button" onclick="fillSample()">Sample Data</button>
+          </div>
+        </form>
+
+        <div style="display:flex;gap:16px;margin-top:16px;flex-wrap:wrap">
+          <div class="card" style="flex:1;min-width:260px">
+            <h4 style="margin:0 0 12px 0">Yield Estimate</h4>
+            <div class="chart-wrap">
+              <canvas id="yieldChart"></canvas>
+            </div>
+          </div>
+
+          <div class="card" style="width:320px">
+            <h4 style="margin:0 0 12px 0">Optimization Suggestions</h4>
+            <ul class="rec-list" id="optSuggestions">
+              <li>Use improved seed varieties</li>
+              <li>Apply balanced NPK based on soil test</li>
+              <li>Schedule irrigation based on evapotranspiration</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- Soil Health Analyzer -->
+      <section class="card" id="soil" style="margin-top:18px">
+        <div class="section-title"><h3>Soil Health Analyzer</h3><small class="muted">Enter basic soil parameters</small></div>
+        <form id="soilForm" class="grid" onsubmit="analyzeSoil(event)">
+          <div>
+            <label for="ph">Soil pH</label>
+            <input id="ph" type="number" step="0.1" placeholder="e.g., 6.5" required />
+          </div>
+          <div>
+            <label for="om">Organic Matter (%)</label>
+            <input id="om" type="number" step="0.1" placeholder="e.g., 2.2" required />
+          </div>
+          <div>
+            <label for="n">Nitrogen (ppm)</label>
+            <input id="n" type="number" placeholder="e.g., 20" required />
+          </div>
+          <div>
+            <label for="p">Phosphorus (ppm)</label>
+            <input id="p" type="number" placeholder="e.g., 15" required />
+          </div>
+          <div>
+            <label for="k">Potassium (ppm)</label>
+            <input id="k" type="number" placeholder="e.g., 140" required />
+          </div>
+          <div style="align-self:end">
+            <button class="btn" type="submit">Analyze</button>
+          </div>
+        </form>
+
+        <div style="display:flex;gap:16px;margin-top:12px;flex-wrap:wrap">
+          <div class="card" style="flex:1;min-width:240px">
+            <h4>Soil Score</h4>
+            <div style="display:flex;align-items:center;gap:12px">
+              <div style="font-size:2.4rem;font-weight:800;color:var(--green-1)" id="soilScore">--</div>
+              <div style="color:var(--muted)">Higher is healthier — based on pH, OM and NPK balance.</div>
+            </div>
+            <div style="margin-top:12px">
+              <h5 style="margin:0 0 8px 0">Nutrient Levels</h5>
+              <div class="nutrient-grid" id="nutGrid">
+                <div class="nut-card"><small>N</small><strong id="nVal">--</strong></div>
+                <div class="nut-card"><small>P</small><strong id="pVal">--</strong></div>
+                <div class="nut-card"><small>K</small><strong id="kVal">--</strong></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card" style="width:360px">
+            <h4>Fertilizer Recommendation</h4>
+            <ul class="rec-list" id="fertRecs">
+              <li>Analyze soil to see tailored recs.</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- Community -->
+      <section class="card" id="community" style="margin-top:18px">
+        <div class="section-title"><h3>Community</h3><small class="muted">Share tips, ask questions</small></div>
+
+        <div class="new-post">
+          <input id="postName" placeholder="Your name" />
+          <textarea id="postText" rows="3" placeholder="Share a quick tip or question..."></textarea>
+          <div style="display:flex;justify-content:flex-end; gap: 10px;">
+            <button class="btn ghost" onclick="clearPosts()">Clear Posts</button>
+            <button class="btn" onclick="addPost()">Post</button>
+          </div>
+        </div>
+
+        <div style="margin-top:12px" class="community" id="posts"></div>
+      </section>
+
+    </div>
+
+    <!-- Right column: analytics & quick cards -->
+    <aside class="right-col">
+      <div class="card">
+        <h4>Climate Snapshot</h4>
+        <p class="muted">Sample localized weather & seasonal index (mock)</p>
+        <div style="display:flex;gap:8px;margin-top:12px;align-items:center">
+          <div style="flex:1">
+            <div style="font-weight:800;font-size:1.4rem">Moderate</div>
+            <small class="muted">Suitable for most cereals</small>
+          </div>
+          <div style="width:90px;height:90px;border-radius:50%;background:linear-gradient(180deg,#e6fff0,#d4f7dc);display:flex;align-items:center;justify-content:center;font-weight:800;color:var(--green-1)">72%</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h4>Recent Predictions</h4>
+        <div id="recentList" style="margin-top:12px"></div>
+      </div>
+
+      <div class="card">
+        <h4>Soil Quick Tips</h4>
+        <ul style="margin-top:12px">
+          <li>Rotate crops to maintain nutrients.</li>
+          <li>Use compost to improve organic matter.</li>
+          <li>Test soil every season for tailored fertilizer</li>
+        </ul>
+      </div>
+    </aside>
+  </main>
+
+  <footer>© 2025 CropAI</footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="{% static 'js/script.js' %}"></script>
+</body>
+</html>
